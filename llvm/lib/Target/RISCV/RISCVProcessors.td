@@ -627,7 +627,7 @@ def RP2350_HAZARD3 : RISCVProcessorModel<"rp2350-hazard3",
                                           FeatureStdExtZcmp]>;
 
 def ANDES_N45 : RISCVProcessorModel<"andes-n45",
-                                    NoSchedModel,
+                                    Andes45Model,
                                     [Feature32Bit,
                                      FeatureStdExtI,
                                      FeatureStdExtZicsr,
@@ -640,7 +640,7 @@ def ANDES_N45 : RISCVProcessorModel<"andes-n45",
                                      FeatureStdExtB]>;
 
 def ANDES_NX45 : RISCVProcessorModel<"andes-nx45",
-                                     NoSchedModel,
+                                     Andes45Model,
                                      [Feature64Bit,
                                       FeatureStdExtI,
                                       FeatureStdExtZicsr,
@@ -653,7 +653,7 @@ def ANDES_NX45 : RISCVProcessorModel<"andes-nx45",
                                       FeatureStdExtB]>;
 
 def ANDES_A45 : RISCVProcessorModel<"andes-a45",
-                                    NoSchedModel,
+                                    Andes45Model,
                                     [Feature32Bit,
                                      FeatureStdExtI,
                                      FeatureStdExtZicsr,
@@ -666,7 +666,7 @@ def ANDES_A45 : RISCVProcessorModel<"andes-a45",
                                      FeatureStdExtB]>;
 
 def ANDES_AX45 : RISCVProcessorModel<"andes-ax45",
-                                     NoSchedModel,
+                                     Andes45Model,
                                      [Feature64Bit,
                                       FeatureStdExtI,
                                       FeatureStdExtZicsr,

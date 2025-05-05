@@ -388,6 +388,23 @@ multiclass VPatVFPMADBinaryV_VX_RM<string intrinsic, string instruction,
   }
 }
 
+let Inst<6-0> = OPC_CUSTOM_2.Value in {
+multiclass NDSVQMACC_V_X<string opcodestr, bits<6> funct6> {
+  def V : VALUrVV<funct6, OPIVV, opcodestr # ".vv">,
+          SchedTernaryMC<"WriteVIMulAddV", "ReadVIMulAddV", "ReadVIMulAddV",
+                         "ReadVIMulAddV">;
+  def X : VALUrVX<funct6, OPIVX, opcodestr # ".vx">,
+          SchedTernaryMC<"WriteVIMulAddX", "ReadVIMulAddV", "ReadVIMulAddX",
+                         "ReadVIMulAddV">;
+}
+
+multiclass NDSVQMACC_X<string opcodestr, bits<6> funct6> {
+  def X : VALUrVX<funct6, OPIVX, opcodestr # ".vx">,
+          SchedTernaryMC<"WriteVIMulAddX", "ReadVIMulAddV", "ReadVIMulAddX",
+                         "ReadVIMulAddV">;
+}
+}
+
 //===----------------------------------------------------------------------===//
 // XAndesPerf
 //===----------------------------------------------------------------------===//
@@ -457,6 +474,18 @@ let Predicates = [HasVendorXAndesVDot], Uses = [VL, VTYPE] in {
 def NDS_VD4DOTS_VV  : NDSRVInstVD4DOT<0b000100, "nds.vd4dots">;
 def NDS_VD4DOTU_VV  : NDSRVInstVD4DOT<0b000111, "nds.vd4dotu">;
 def NDS_VD4DOTSU_VV : NDSRVInstVD4DOT<0b000101, "nds.vd4dotsu">;
+}
+
+//===----------------------------------------------------------------------===//
+// XAndesVQMac
+//===----------------------------------------------------------------------===//
+
+let Predicates = [HasVendorXAndesVQMac],
+    RVVConstraint = WidenV in {
+defm NDS_VQMACCU_V  : NDSVQMACC_V_X<"nds.vqmaccu", 0b111100>;
+defm NDS_VQMACC_V   : NDSVQMACC_V_X<"nds.vqmacc", 0b111101>;
+defm NDS_VQMACCSU_V : NDSVQMACC_V_X<"nds.vqmaccsu", 0b111111>;
+defm NDS_VQMACCUS_V : NDSVQMACC_X<"nds.vqmaccus", 0b111110>;
 }
 } // DecoderNamespace = "XAndes"
 

@@ -106,6 +106,7 @@
 ; RUN: llc -mtriple=riscv32 -mattr=+xandesperf %s -o - | FileCheck --check-prefix=RV32XANDESPERF %s
 ; RUN: llc -mtriple=riscv32 -mattr=+xandesvdot %s -o - | FileCheck --check-prefix=RV32XANDESVDOT %s
 ; RUN: llc -mtriple=riscv32 -mattr=+xandesvpackfph %s -o - | FileCheck --check-prefix=RV32XANDESVPACKFPH %s
+; RUN: llc -mtriple=riscv32 -mattr=+xandesvqmac %s -o - | FileCheck --check-prefix=RV32XANDESVQMAC %s
 ; RUN: llc -mtriple=riscv32 -mattr=+zaamo %s -o - | FileCheck --check-prefix=RV32ZAAMO %s
 ; RUN: llc -mtriple=riscv32 -mattr=+zalrsc %s -o - | FileCheck --check-prefix=RV32ZALRSC %s
 ; RUN: llc -mtriple=riscv32 -mattr=+zca %s -o - | FileCheck --check-prefixes=CHECK,RV32ZCA %s
@@ -258,6 +259,7 @@
 ; RUN: llc -mtriple=riscv64 -mattr=+xandesperf %s -o - | FileCheck --check-prefix=RV64XANDESPERF %s
 ; RUN: llc -mtriple=riscv64 -mattr=+xandesvdot %s -o - | FileCheck --check-prefix=RV64XANDESVDOT %s
 ; RUN: llc -mtriple=riscv64 -mattr=+xandesvpackfph %s -o - | FileCheck --check-prefix=RV64XANDESVPACKFPH %s
+; RUN: llc -mtriple=riscv64 -mattr=+xandesvqmac %s -o - | FileCheck --check-prefix=RV64XANDESVQMAC %s
 ; RUN: llc -mtriple=riscv64 -mattr=+za64rs %s -o - | FileCheck --check-prefixes=CHECK,RV64ZA64RS %s
 ; RUN: llc -mtriple=riscv64 -mattr=+za128rs %s -o - | FileCheck --check-prefixes=CHECK,RV64ZA128RS %s
 ; RUN: llc -mtriple=riscv64 -mattr=+zama16b %s -o - | FileCheck --check-prefixes=CHECK,RV64ZAMA16B %s
@@ -453,6 +455,7 @@
 ; RV32XANDESPERF: .attribute 5, "rv32i2p1_xandesperf5p0"
 ; RV32XANDESVDOT: .attribute 5, "rv32i2p1_zicsr2p0_zve32x1p0_zvl32b1p0_xandesvdot5p0"
 ; RV32XANDESVPACKFPH: .attribute 5, "rv32i2p1_f2p2_zicsr2p0_zve32f1p0_zve32x1p0_zvfhmin1p0_zvl32b1p0_xandesvpackfph5p0"
+; RV32XANDESVQMAC: .attribute 5, "rv32i2p1_zicsr2p0_zve32x1p0_zvl32b1p0_xandesvqmac5p0"
 ; RV32ZAAMO: .attribute 5, "rv32i2p1_zaamo1p0"
 ; RV32ZALRSC: .attribute 5, "rv32i2p1_zalrsc1p0"
 ; RV32ZCA: .attribute 5, "rv32i2p1_zca1p0"
@@ -606,6 +609,7 @@
 ; RV64XANDESPERF: .attribute 5, "rv64i2p1_xandesperf5p0"
 ; RV64XANDESVDOT: .attribute 5, "rv64i2p1_zicsr2p0_zve32x1p0_zvl32b1p0_xandesvdot5p0"
 ; RV64XANDESVPACKFPH: .attribute 5, "rv64i2p1_f2p2_zicsr2p0_zve32f1p0_zve32x1p0_zvfhmin1p0_zvl32b1p0_xandesvpackfph5p0"
+; RV64XANDESVQMAC: .attribute 5, "rv64i2p1_zicsr2p0_zve32x1p0_zvl32b1p0_xandesvqmac5p0"
 ; RV64ZTSO: .attribute 5, "rv64i2p1_ztso1p0"
 ; RV64ZAAMO: .attribute 5, "rv64i2p1_zaamo1p0"
 ; RV64ZALRSC: .attribute 5, "rv64i2p1_zalrsc1p0"

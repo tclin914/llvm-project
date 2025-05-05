@@ -1534,6 +1534,14 @@ def HasVendorXAndesVDot
       AssemblerPredicate<(all_of FeatureVendorXAndesVDot),
                          "'XAndesVDot' (Andes Vector Dot Product Extension)">;
 
+def FeatureVendorXAndesVQMac
+    : RISCVExtension<5, 0, "Andes Vector Quad-Widening Integer Multiply-Add Extension",
+                     [FeatureStdExtZve32x]>;
+def HasVendorXAndesVQMac
+    : Predicate<"Subtarget->hasVendorXAndesVQMac()">,
+      AssemblerPredicate<(all_of FeatureVendorXAndesVQMac),
+                         "'XAndesVQMac' (Andes Vector Quad-Widening Integer Multiply-Add Extension)">;
+
 //===----------------------------------------------------------------------===//
 // LLVM specific features and extensions
 //===----------------------------------------------------------------------===//

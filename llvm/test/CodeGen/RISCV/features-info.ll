@@ -173,6 +173,7 @@
 ; CHECK-NEXT:   xandesperf                       - 'XAndesPerf' (Andes Performance Extension).
 ; CHECK-NEXT:   xandesvdot                       - 'XAndesVDot' (Andes Vector Dot Product Extension).
 ; CHECK-NEXT:   xandesvpackfph                   - 'XAndesVPackFPH' (Andes Vector Packed FP16 Extension).
+; CHECK-NEXT:   xandesvqmac                      - 'XAndesVQMac' (Andes Vector Quad-Widening Integer Multiply-Add Extension).
 ; CHECK-NEXT:   xcvalu                           - 'XCValu' (CORE-V ALU Operations).
 ; CHECK-NEXT:   xcvbi                            - 'XCVbi' (CORE-V Immediate Branching).
 ; CHECK-NEXT:   xcvbitmanip                      - 'XCVbitmanip' (CORE-V Bit Manipulation).

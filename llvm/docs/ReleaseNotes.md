@@ -187,6 +187,7 @@ Changes to the RISC-V Backend
 * `-mcpu=sifive-p870` was added.
 * Adds assembler support for the Andes `XAndesvpackfph` (Andes Vector Packed FP16 extension).
 * Adds assembler support for the Andes `XAndesvdot` (Andes Vector Dot Product extension).
+* Adds assembler support for the Andes `XAndesvqmac` (Andes Vector Quad-Widening Integer Multiply-Add extension).
 
 Changes to the WebAssembly Backend
 ----------------------------------

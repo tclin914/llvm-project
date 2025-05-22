@@ -691,6 +691,10 @@ public:
       return nullptr;
     }
 
+    if (Opcode == RISCV::C_LWSP ||
+        Opcode == RISCV::C_LDSP)
+      return "The MC opcode of C_LWSP/C_LDSP instructions are ignored";
+
     return ExegesisTarget::getIgnoredOpcodeReasonOrNull(State, Opcode);
   }
 

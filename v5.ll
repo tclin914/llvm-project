@@ -20,17 +20,18 @@ define void @bbc(i32 %a) nounwind {
 ; RV32I-NEXT:  .LBB0_2: # %abort
 ; RV32I-NEXT:    addi sp, sp, -16
 ; RV32I-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32I-NEXT:    call abort@plt
+; RV32I-NEXT:    call abort
 ;
 ; RV32IXANDES-LABEL: bbc:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bbc a0, 16, .LBB0_2
+; RV32IXANDES-NEXT:    slli a0, a0, 15
+; RV32IXANDES-NEXT:    bgez a0, .LBB0_2
 ; RV32IXANDES-NEXT:  # %bb.1: # %end
 ; RV32IXANDES-NEXT:    ret
 ; RV32IXANDES-NEXT:  .LBB0_2: # %abort
 ; RV32IXANDES-NEXT:    addi sp, sp, -16
 ; RV32IXANDES-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32IXANDES-NEXT:    call abort@plt
+; RV32IXANDES-NEXT:    call abort
 ;
 ; RV64I-LABEL: bbc:
 ; RV64I:       # %bb.0:
@@ -41,17 +42,18 @@ define void @bbc(i32 %a) nounwind {
 ; RV64I-NEXT:  .LBB0_2: # %abort
 ; RV64I-NEXT:    addi sp, sp, -16
 ; RV64I-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    call abort@plt
+; RV64I-NEXT:    call abort
 ;
 ; RV64IXANDES-LABEL: bbc:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bbc a0, 16, .LBB0_2
+; RV64IXANDES-NEXT:    slli a0, a0, 47
+; RV64IXANDES-NEXT:    bgez a0, .LBB0_2
 ; RV64IXANDES-NEXT:  # %bb.1: # %end
 ; RV64IXANDES-NEXT:    ret
 ; RV64IXANDES-NEXT:  .LBB0_2: # %abort
 ; RV64IXANDES-NEXT:    addi sp, sp, -16
 ; RV64IXANDES-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64IXANDES-NEXT:    call abort@plt
+; RV64IXANDES-NEXT:    call abort
   %mask = shl i32 1, 16
   %and = and i32 %a, %mask
   %tst = icmp eq i32 %and, 0
@@ -73,17 +75,18 @@ define void @bbs(i32 %a) nounwind {
 ; RV32I-NEXT:  .LBB1_2: # %abort
 ; RV32I-NEXT:    addi sp, sp, -16
 ; RV32I-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32I-NEXT:    call abort@plt
+; RV32I-NEXT:    call abort
 ;
 ; RV32IXANDES-LABEL: bbs:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bbs a0, 23, .LBB1_2
+; RV32IXANDES-NEXT:    slli a0, a0, 8
+; RV32IXANDES-NEXT:    bltz a0, .LBB1_2
 ; RV32IXANDES-NEXT:  # %bb.1: # %end
 ; RV32IXANDES-NEXT:    ret
 ; RV32IXANDES-NEXT:  .LBB1_2: # %abort
 ; RV32IXANDES-NEXT:    addi sp, sp, -16
 ; RV32IXANDES-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32IXANDES-NEXT:    call abort@plt
+; RV32IXANDES-NEXT:    call abort
 ;
 ; RV64I-LABEL: bbs:
 ; RV64I:       # %bb.0:
@@ -94,17 +97,18 @@ define void @bbs(i32 %a) nounwind {
 ; RV64I-NEXT:  .LBB1_2: # %abort
 ; RV64I-NEXT:    addi sp, sp, -16
 ; RV64I-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    call abort@plt
+; RV64I-NEXT:    call abort
 ;
 ; RV64IXANDES-LABEL: bbs:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bbs a0, 23, .LBB1_2
+; RV64IXANDES-NEXT:    slli a0, a0, 40
+; RV64IXANDES-NEXT:    bltz a0, .LBB1_2
 ; RV64IXANDES-NEXT:  # %bb.1: # %end
 ; RV64IXANDES-NEXT:    ret
 ; RV64IXANDES-NEXT:  .LBB1_2: # %abort
 ; RV64IXANDES-NEXT:    addi sp, sp, -16
 ; RV64IXANDES-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64IXANDES-NEXT:    call abort@plt
+; RV64IXANDES-NEXT:    call abort
   %mask = shl i32 1, 23
   %and = and i32 %a, %mask
   %tst = icmp ne i32 %and, 0
@@ -126,17 +130,18 @@ define void @beqc(i32 %a) nounwind {
 ; RV32I-NEXT:  .LBB2_2: # %abort
 ; RV32I-NEXT:    addi sp, sp, -16
 ; RV32I-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32I-NEXT:    call abort@plt
+; RV32I-NEXT:    call abort
 ;
 ; RV32IXANDES-LABEL: beqc:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    beqc a0, 5, .LBB2_2
+; RV32IXANDES-NEXT:    li a1, 5
+; RV32IXANDES-NEXT:    beq a0, a1, .LBB2_2
 ; RV32IXANDES-NEXT:  # %bb.1: # %end
 ; RV32IXANDES-NEXT:    ret
 ; RV32IXANDES-NEXT:  .LBB2_2: # %abort
 ; RV32IXANDES-NEXT:    addi sp, sp, -16
 ; RV32IXANDES-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32IXANDES-NEXT:    call abort@plt
+; RV32IXANDES-NEXT:    call abort
 ;
 ; RV64I-LABEL: beqc:
 ; RV64I:       # %bb.0:
@@ -148,18 +153,19 @@ define void @beqc(i32 %a) nounwind {
 ; RV64I-NEXT:  .LBB2_2: # %abort
 ; RV64I-NEXT:    addi sp, sp, -16
 ; RV64I-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    call abort@plt
+; RV64I-NEXT:    call abort
 ;
 ; RV64IXANDES-LABEL: beqc:
 ; RV64IXANDES:       # %bb.0:
 ; RV64IXANDES-NEXT:    sext.w a0, a0
-; RV64IXANDES-NEXT:    beqc a0, 5, .LBB2_2
+; RV64IXANDES-NEXT:    li a1, 5
+; RV64IXANDES-NEXT:    beq a0, a1, .LBB2_2
 ; RV64IXANDES-NEXT:  # %bb.1: # %end
 ; RV64IXANDES-NEXT:    ret
 ; RV64IXANDES-NEXT:  .LBB2_2: # %abort
 ; RV64IXANDES-NEXT:    addi sp, sp, -16
 ; RV64IXANDES-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64IXANDES-NEXT:    call abort@plt
+; RV64IXANDES-NEXT:    call abort
   %tst = icmp eq i32 %a, 5
   br i1 %tst, label %abort, label %end
 end:
@@ -179,17 +185,18 @@ define void @bnec(i32 %a) nounwind {
 ; RV32I-NEXT:  .LBB3_2: # %abort
 ; RV32I-NEXT:    addi sp, sp, -16
 ; RV32I-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32I-NEXT:    call abort@plt
+; RV32I-NEXT:    call abort
 ;
 ; RV32IXANDES-LABEL: bnec:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bnec a0, 27, .LBB3_2
+; RV32IXANDES-NEXT:    li a1, 27
+; RV32IXANDES-NEXT:    bne a0, a1, .LBB3_2
 ; RV32IXANDES-NEXT:  # %bb.1: # %end
 ; RV32IXANDES-NEXT:    ret
 ; RV32IXANDES-NEXT:  .LBB3_2: # %abort
 ; RV32IXANDES-NEXT:    addi sp, sp, -16
 ; RV32IXANDES-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32IXANDES-NEXT:    call abort@plt
+; RV32IXANDES-NEXT:    call abort
 ;
 ; RV64I-LABEL: bnec:
 ; RV64I:       # %bb.0:
@@ -201,18 +208,19 @@ define void @bnec(i32 %a) nounwind {
 ; RV64I-NEXT:  .LBB3_2: # %abort
 ; RV64I-NEXT:    addi sp, sp, -16
 ; RV64I-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    call abort@plt
+; RV64I-NEXT:    call abort
 ;
 ; RV64IXANDES-LABEL: bnec:
 ; RV64IXANDES:       # %bb.0:
 ; RV64IXANDES-NEXT:    sext.w a0, a0
-; RV64IXANDES-NEXT:    bnec a0, 27, .LBB3_2
+; RV64IXANDES-NEXT:    li a1, 27
+; RV64IXANDES-NEXT:    bne a0, a1, .LBB3_2
 ; RV64IXANDES-NEXT:  # %bb.1: # %end
 ; RV64IXANDES-NEXT:    ret
 ; RV64IXANDES-NEXT:  .LBB3_2: # %abort
 ; RV64IXANDES-NEXT:    addi sp, sp, -16
 ; RV64IXANDES-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64IXANDES-NEXT:    call abort@plt
+; RV64IXANDES-NEXT:    call abort
   %tst = icmp ne i32 %a, 27
   br i1 %tst, label %abort, label %end
 end:
@@ -231,7 +239,7 @@ define i8 @sext_i1_to_i8(i1 %a) {
 ;
 ; RV32IXANDES-LABEL: sext_i1_to_i8:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: sext_i1_to_i8:
@@ -242,7 +250,7 @@ define i8 @sext_i1_to_i8(i1 %a) {
 ;
 ; RV64IXANDES-LABEL: sext_i1_to_i8:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = sext i1 %a to i8
   ret i8 %1
@@ -257,7 +265,7 @@ define i16 @sext_i1_to_i16(i1 %a) {
 ;
 ; RV32IXANDES-LABEL: sext_i1_to_i16:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: sext_i1_to_i16:
@@ -268,7 +276,7 @@ define i16 @sext_i1_to_i16(i1 %a) {
 ;
 ; RV64IXANDES-LABEL: sext_i1_to_i16:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = sext i1 %a to i16
   ret i16 %1
@@ -283,7 +291,7 @@ define i32 @sext_i1_to_i32(i1 %a) {
 ;
 ; RV32IXANDES-LABEL: sext_i1_to_i32:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: sext_i1_to_i32:
@@ -294,7 +302,7 @@ define i32 @sext_i1_to_i32(i1 %a) {
 ;
 ; RV64IXANDES-LABEL: sext_i1_to_i32:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = sext i1 %a to i32
   ret i32 %1
@@ -310,7 +318,7 @@ define i64 @sext_i1_to_i64(i1 %a) {
 ;
 ; RV32IXANDES-LABEL: sext_i1_to_i64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV32IXANDES-NEXT:    mv a1, a0
 ; RV32IXANDES-NEXT:    ret
 ;
@@ -322,7 +330,7 @@ define i64 @sext_i1_to_i64(i1 %a) {
 ;
 ; RV64IXANDES-LABEL: sext_i1_to_i64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = sext i1 %a to i64
   ret i64 %1
@@ -337,7 +345,7 @@ define i16 @sext_i8_to_i16(i8 %a) {
 ;
 ; RV32IXANDES-LABEL: sext_i8_to_i16:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: sext_i8_to_i16:
@@ -348,7 +356,7 @@ define i16 @sext_i8_to_i16(i8 %a) {
 ;
 ; RV64IXANDES-LABEL: sext_i8_to_i16:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = sext i8 %a to i16
   ret i16 %1
@@ -363,7 +371,7 @@ define i32 @sext_i8_to_i32(i8 %a) {
 ;
 ; RV32IXANDES-LABEL: sext_i8_to_i32:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: sext_i8_to_i32:
@@ -374,7 +382,7 @@ define i32 @sext_i8_to_i32(i8 %a) {
 ;
 ; RV64IXANDES-LABEL: sext_i8_to_i32:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = sext i8 %a to i32
   ret i32 %1
@@ -390,9 +398,8 @@ define i64 @sext_i8_to_i64(i8 %a) {
 ;
 ; RV32IXANDES-LABEL: sext_i8_to_i64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a2, a0, 7, 0
-; RV32IXANDES-NEXT:    bfos a1, a0, 7, 7
-; RV32IXANDES-NEXT:    mv a0, a2
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
+; RV32IXANDES-NEXT:    srai a1, a0, 31
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: sext_i8_to_i64:
@@ -403,7 +410,7 @@ define i64 @sext_i8_to_i64(i8 %a) {
 ;
 ; RV64IXANDES-LABEL: sext_i8_to_i64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = sext i8 %a to i64
   ret i64 %1
@@ -418,7 +425,7 @@ define i32 @sext_i16_to_i32(i16 %a) {
 ;
 ; RV32IXANDES-LABEL: sext_i16_to_i32:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 15, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 15, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: sext_i16_to_i32:
@@ -429,7 +436,7 @@ define i32 @sext_i16_to_i32(i16 %a) {
 ;
 ; RV64IXANDES-LABEL: sext_i16_to_i32:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 15, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 15, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = sext i16 %a to i32
   ret i32 %1
@@ -445,9 +452,8 @@ define i64 @sext_i16_to_i64(i16 %a) {
 ;
 ; RV32IXANDES-LABEL: sext_i16_to_i64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a2, a0, 15, 0
-; RV32IXANDES-NEXT:    bfos a1, a0, 15, 15
-; RV32IXANDES-NEXT:    mv a0, a2
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 15, 0
+; RV32IXANDES-NEXT:    srai a1, a0, 31
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: sext_i16_to_i64:
@@ -458,7 +464,7 @@ define i64 @sext_i16_to_i64(i16 %a) {
 ;
 ; RV64IXANDES-LABEL: sext_i16_to_i64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 15, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 15, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = sext i16 %a to i64
   ret i64 %1
@@ -589,22 +595,22 @@ define i64 @zext_i1_to_i64(i1 %a) {
 define i16 @zext_i8_to_i16(i8 %a) {
 ; RV32I-LABEL: zext_i8_to_i16:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    andi a0, a0, 255
+; RV32I-NEXT:    zext.b a0, a0
 ; RV32I-NEXT:    ret
 ;
 ; RV32IXANDES-LABEL: zext_i8_to_i16:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    andi a0, a0, 255
+; RV32IXANDES-NEXT:    zext.b a0, a0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: zext_i8_to_i16:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    andi a0, a0, 255
+; RV64I-NEXT:    zext.b a0, a0
 ; RV64I-NEXT:    ret
 ;
 ; RV64IXANDES-LABEL: zext_i8_to_i16:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    andi a0, a0, 255
+; RV64IXANDES-NEXT:    zext.b a0, a0
 ; RV64IXANDES-NEXT:    ret
   %1 = zext i8 %a to i16
   ret i16 %1
@@ -613,22 +619,22 @@ define i16 @zext_i8_to_i16(i8 %a) {
 define i32 @zext_i8_to_i32(i8 %a) {
 ; RV32I-LABEL: zext_i8_to_i32:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    andi a0, a0, 255
+; RV32I-NEXT:    zext.b a0, a0
 ; RV32I-NEXT:    ret
 ;
 ; RV32IXANDES-LABEL: zext_i8_to_i32:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    andi a0, a0, 255
+; RV32IXANDES-NEXT:    zext.b a0, a0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: zext_i8_to_i32:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    andi a0, a0, 255
+; RV64I-NEXT:    zext.b a0, a0
 ; RV64I-NEXT:    ret
 ;
 ; RV64IXANDES-LABEL: zext_i8_to_i32:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    andi a0, a0, 255
+; RV64IXANDES-NEXT:    zext.b a0, a0
 ; RV64IXANDES-NEXT:    ret
   %1 = zext i8 %a to i32
   ret i32 %1
@@ -637,24 +643,24 @@ define i32 @zext_i8_to_i32(i8 %a) {
 define i64 @zext_i8_to_i64(i8 %a) {
 ; RV32I-LABEL: zext_i8_to_i64:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    andi a0, a0, 255
+; RV32I-NEXT:    zext.b a0, a0
 ; RV32I-NEXT:    li a1, 0
 ; RV32I-NEXT:    ret
 ;
 ; RV32IXANDES-LABEL: zext_i8_to_i64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    andi a0, a0, 255
+; RV32IXANDES-NEXT:    zext.b a0, a0
 ; RV32IXANDES-NEXT:    li a1, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: zext_i8_to_i64:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    andi a0, a0, 255
+; RV64I-NEXT:    zext.b a0, a0
 ; RV64I-NEXT:    ret
 ;
 ; RV64IXANDES-LABEL: zext_i8_to_i64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    andi a0, a0, 255
+; RV64IXANDES-NEXT:    zext.b a0, a0
 ; RV64IXANDES-NEXT:    ret
   %1 = zext i8 %a to i64
   ret i64 %1
@@ -669,7 +675,8 @@ define i32 @zext_i16_to_i32(i16 %a) {
 ;
 ; RV32IXANDES-LABEL: zext_i16_to_i32:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfoz a0, a0, 15, 0
+; RV32IXANDES-NEXT:    slli a0, a0, 16
+; RV32IXANDES-NEXT:    srli a0, a0, 16
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: zext_i16_to_i32:
@@ -680,7 +687,8 @@ define i32 @zext_i16_to_i32(i16 %a) {
 ;
 ; RV64IXANDES-LABEL: zext_i16_to_i32:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfoz a0, a0, 15, 0
+; RV64IXANDES-NEXT:    slli a0, a0, 48
+; RV64IXANDES-NEXT:    srli a0, a0, 48
 ; RV64IXANDES-NEXT:    ret
   %1 = zext i16 %a to i32
   ret i32 %1
@@ -696,7 +704,8 @@ define i64 @zext_i16_to_i64(i16 %a) {
 ;
 ; RV32IXANDES-LABEL: zext_i16_to_i64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfoz a0, a0, 15, 0
+; RV32IXANDES-NEXT:    slli a0, a0, 16
+; RV32IXANDES-NEXT:    srli a0, a0, 16
 ; RV32IXANDES-NEXT:    li a1, 0
 ; RV32IXANDES-NEXT:    ret
 ;
@@ -708,7 +717,8 @@ define i64 @zext_i16_to_i64(i16 %a) {
 ;
 ; RV64IXANDES-LABEL: zext_i16_to_i64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfoz a0, a0, 15, 0
+; RV64IXANDES-NEXT:    slli a0, a0, 48
+; RV64IXANDES-NEXT:    srli a0, a0, 48
 ; RV64IXANDES-NEXT:    ret
   %1 = zext i16 %a to i64
   ret i64 %1
@@ -733,7 +743,7 @@ define i64 @zext_i32_to_i64(i32 %a) {
 ;
 ; RV64IXANDES-LABEL: zext_i32_to_i64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfoz a0, a0, 31, 0
+; RV64IXANDES-NEXT:    nds.lea.b.ze a0, zero, a0
 ; RV64IXANDES-NEXT:    ret
   %1 = zext i32 %a to i64
   ret i64 %1
@@ -948,7 +958,7 @@ define signext i1 @trunc_i8_to_sext_i1(i8 %a) {
 ;
 ; RV32IXANDES-LABEL: trunc_i8_to_sext_i1:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: trunc_i8_to_sext_i1:
@@ -959,7 +969,7 @@ define signext i1 @trunc_i8_to_sext_i1(i8 %a) {
 ;
 ; RV64IXANDES-LABEL: trunc_i8_to_sext_i1:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = trunc i8 %a to i1
   ret i1 %1
@@ -974,7 +984,7 @@ define signext i1 @trunc_i16_to_sext_i1(i16 %a) {
 ;
 ; RV32IXANDES-LABEL: trunc_i16_to_sext_i1:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: trunc_i16_to_sext_i1:
@@ -985,7 +995,7 @@ define signext i1 @trunc_i16_to_sext_i1(i16 %a) {
 ;
 ; RV64IXANDES-LABEL: trunc_i16_to_sext_i1:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = trunc i16 %a to i1
   ret i1 %1
@@ -1000,7 +1010,7 @@ define signext i1 @trunc_i32_to_sext_i1(i32 %a) {
 ;
 ; RV32IXANDES-LABEL: trunc_i32_to_sext_i1:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: trunc_i32_to_sext_i1:
@@ -1011,7 +1021,7 @@ define signext i1 @trunc_i32_to_sext_i1(i32 %a) {
 ;
 ; RV64IXANDES-LABEL: trunc_i32_to_sext_i1:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = trunc i32 %a to i1
   ret i1 %1
@@ -1026,7 +1036,7 @@ define signext i1 @trunc_i64_to_sext_i1(i64 %a) {
 ;
 ; RV32IXANDES-LABEL: trunc_i64_to_sext_i1:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: trunc_i64_to_sext_i1:
@@ -1037,7 +1047,7 @@ define signext i1 @trunc_i64_to_sext_i1(i64 %a) {
 ;
 ; RV64IXANDES-LABEL: trunc_i64_to_sext_i1:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 0, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 0, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = trunc i64 %a to i1
   ret i1 %1
@@ -1052,7 +1062,7 @@ define signext i8 @trunc_i16_to_sext_i8(i16 %a) {
 ;
 ; RV32IXANDES-LABEL: trunc_i16_to_sext_i8:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: trunc_i16_to_sext_i8:
@@ -1063,7 +1073,7 @@ define signext i8 @trunc_i16_to_sext_i8(i16 %a) {
 ;
 ; RV64IXANDES-LABEL: trunc_i16_to_sext_i8:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = trunc i16 %a to i8
   ret i8 %1
@@ -1078,7 +1088,7 @@ define signext i8 @trunc_i32_to_sext_i8(i32 %a) {
 ;
 ; RV32IXANDES-LABEL: trunc_i32_to_sext_i8:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: trunc_i32_to_sext_i8:
@@ -1089,7 +1099,7 @@ define signext i8 @trunc_i32_to_sext_i8(i32 %a) {
 ;
 ; RV64IXANDES-LABEL: trunc_i32_to_sext_i8:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = trunc i32 %a to i8
   ret i8 %1
@@ -1104,7 +1114,7 @@ define signext i8 @trunc_i64_to_sext_i8(i64 %a) {
 ;
 ; RV32IXANDES-LABEL: trunc_i64_to_sext_i8:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: trunc_i64_to_sext_i8:
@@ -1115,7 +1125,7 @@ define signext i8 @trunc_i64_to_sext_i8(i64 %a) {
 ;
 ; RV64IXANDES-LABEL: trunc_i64_to_sext_i8:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 7, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 7, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = trunc i64 %a to i8
   ret i8 %1
@@ -1130,7 +1140,7 @@ define signext i16 @trunc_i32_to_sext_i16(i32 %a) {
 ;
 ; RV32IXANDES-LABEL: trunc_i32_to_sext_i16:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 15, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 15, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: trunc_i32_to_sext_i16:
@@ -1141,7 +1151,7 @@ define signext i16 @trunc_i32_to_sext_i16(i32 %a) {
 ;
 ; RV64IXANDES-LABEL: trunc_i32_to_sext_i16:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 15, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 15, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = trunc i32 %a to i16
   ret i16 %1
@@ -1156,7 +1166,7 @@ define signext i16 @trunc_i64_to_sext_i16(i64 %a) {
 ;
 ; RV32IXANDES-LABEL: trunc_i64_to_sext_i16:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a0, a0, 15, 0
+; RV32IXANDES-NEXT:    nds.bfos a0, a0, 15, 0
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: trunc_i64_to_sext_i16:
@@ -1167,7 +1177,7 @@ define signext i16 @trunc_i64_to_sext_i16(i64 %a) {
 ;
 ; RV64IXANDES-LABEL: trunc_i64_to_sext_i16:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a0, a0, 15, 0
+; RV64IXANDES-NEXT:    nds.bfos a0, a0, 15, 0
 ; RV64IXANDES-NEXT:    ret
   %1 = trunc i64 %a to i16
   ret i16 %1
@@ -1201,8 +1211,8 @@ define void @bfoz_from_and(i32 %fields) {
 ; RV32I-LABEL: bfoz_from_and:
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    slli a1, a0, 6
-; RV32I-NEXT:    srli a1, a1, 29
 ; RV32I-NEXT:    lui a2, %hi(var32)
+; RV32I-NEXT:    srli a1, a1, 29
 ; RV32I-NEXT:    sw a1, %lo(var32)(a2)
 ; RV32I-NEXT:    slli a1, a0, 31
 ; RV32I-NEXT:    slli a0, a0, 20
@@ -1214,12 +1224,14 @@ define void @bfoz_from_and(i32 %fields) {
 ;
 ; RV32IXANDES-LABEL: bfoz_from_and:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfoz a1, a0, 25, 23
+; RV32IXANDES-NEXT:    slli a1, a0, 6
 ; RV32IXANDES-NEXT:    lui a2, %hi(var32)
+; RV32IXANDES-NEXT:    srli a1, a1, 29
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
-; RV32IXANDES-NEXT:    slli a1, a0, 15
-; RV32IXANDES-NEXT:    bfoz a1, a1, 15, 0
-; RV32IXANDES-NEXT:    bfoz a0, a0, 12, 23
+; RV32IXANDES-NEXT:    slli a1, a0, 31
+; RV32IXANDES-NEXT:    slli a0, a0, 20
+; RV32IXANDES-NEXT:    srli a1, a1, 16
+; RV32IXANDES-NEXT:    srli a0, a0, 8
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    sw a0, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    ret
@@ -1227,29 +1239,29 @@ define void @bfoz_from_and(i32 %fields) {
 ; RV64I-LABEL: bfoz_from_and:
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    slli a1, a0, 38
+; RV64I-NEXT:    lui a2, %hi(var32)
 ; RV64I-NEXT:    srli a1, a1, 61
-; RV64I-NEXT:  .Lpcrel_hi0:
-; RV64I-NEXT:    auipc a2, %pcrel_hi(var32)
-; RV64I-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi0)(a2)
+; RV64I-NEXT:    sw a1, %lo(var32)(a2)
 ; RV64I-NEXT:    slli a1, a0, 63
 ; RV64I-NEXT:    slli a0, a0, 52
 ; RV64I-NEXT:    srli a1, a1, 48
 ; RV64I-NEXT:    srli a0, a0, 40
-; RV64I-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi0)(a2)
-; RV64I-NEXT:    sw a0, %pcrel_lo(.Lpcrel_hi0)(a2)
+; RV64I-NEXT:    sw a1, %lo(var32)(a2)
+; RV64I-NEXT:    sw a0, %lo(var32)(a2)
 ; RV64I-NEXT:    ret
 ;
 ; RV64IXANDES-LABEL: bfoz_from_and:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfoz a1, a0, 25, 23
-; RV64IXANDES-NEXT:  .Lpcrel_hi0:
-; RV64IXANDES-NEXT:    auipc a2, %pcrel_hi(var32)
-; RV64IXANDES-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi0)(a2)
-; RV64IXANDES-NEXT:    slli a1, a0, 15
-; RV64IXANDES-NEXT:    bfoz a1, a1, 15, 0
-; RV64IXANDES-NEXT:    bfoz a0, a0, 12, 23
-; RV64IXANDES-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi0)(a2)
-; RV64IXANDES-NEXT:    sw a0, %pcrel_lo(.Lpcrel_hi0)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 38
+; RV64IXANDES-NEXT:    lui a2, %hi(var32)
+; RV64IXANDES-NEXT:    srli a1, a1, 61
+; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 63
+; RV64IXANDES-NEXT:    slli a0, a0, 52
+; RV64IXANDES-NEXT:    srli a1, a1, 48
+; RV64IXANDES-NEXT:    srli a0, a0, 40
+; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
+; RV64IXANDES-NEXT:    sw a0, %lo(var32)(a2)
 ; RV64IXANDES-NEXT:    ret
 
 ; MSB >= LSB
@@ -1274,8 +1286,8 @@ define void @bfoz_from_srl(i32 %fields) {
 ; RV32I-LABEL: bfoz_from_srl:
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    slli a1, a0, 31
-; RV32I-NEXT:    srli a1, a1, 13
 ; RV32I-NEXT:    lui a2, %hi(var32)
+; RV32I-NEXT:    srli a1, a1, 13
 ; RV32I-NEXT:    sw a1, %lo(var32)(a2)
 ; RV32I-NEXT:    slli a1, a0, 26
 ; RV32I-NEXT:    srli a1, a1, 7
@@ -1290,13 +1302,17 @@ define void @bfoz_from_srl(i32 %fields) {
 ;
 ; RV32IXANDES-LABEL: bfoz_from_srl:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfoz a1, a0, 0, 18
+; RV32IXANDES-NEXT:    slli a1, a0, 31
 ; RV32IXANDES-NEXT:    lui a2, %hi(var32)
+; RV32IXANDES-NEXT:    srli a1, a1, 13
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
-; RV32IXANDES-NEXT:    bfoz a1, a0, 19, 24
+; RV32IXANDES-NEXT:    slli a1, a0, 26
+; RV32IXANDES-NEXT:    srli a1, a1, 7
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
-; RV32IXANDES-NEXT:    bfoz a1, a0, 22, 10
-; RV32IXANDES-NEXT:    bfoz a0, a0, 23, 12
+; RV32IXANDES-NEXT:    slli a1, a0, 9
+; RV32IXANDES-NEXT:    slli a0, a0, 8
+; RV32IXANDES-NEXT:    srli a1, a1, 19
+; RV32IXANDES-NEXT:    srli a0, a0, 20
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    sw a0, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    ret
@@ -1304,33 +1320,35 @@ define void @bfoz_from_srl(i32 %fields) {
 ; RV64I-LABEL: bfoz_from_srl:
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    slli a1, a0, 63
+; RV64I-NEXT:    lui a2, %hi(var32)
 ; RV64I-NEXT:    srli a1, a1, 45
-; RV64I-NEXT:  .Lpcrel_hi1:
-; RV64I-NEXT:    auipc a2, %pcrel_hi(var32)
-; RV64I-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi1)(a2)
+; RV64I-NEXT:    sw a1, %lo(var32)(a2)
 ; RV64I-NEXT:    slli a1, a0, 58
 ; RV64I-NEXT:    srli a1, a1, 39
-; RV64I-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi1)(a2)
+; RV64I-NEXT:    sw a1, %lo(var32)(a2)
 ; RV64I-NEXT:    slli a1, a0, 41
 ; RV64I-NEXT:    slli a0, a0, 40
 ; RV64I-NEXT:    srli a1, a1, 51
 ; RV64I-NEXT:    srli a0, a0, 52
-; RV64I-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi1)(a2)
-; RV64I-NEXT:    sw a0, %pcrel_lo(.Lpcrel_hi1)(a2)
+; RV64I-NEXT:    sw a1, %lo(var32)(a2)
+; RV64I-NEXT:    sw a0, %lo(var32)(a2)
 ; RV64I-NEXT:    ret
 ;
 ; RV64IXANDES-LABEL: bfoz_from_srl:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfoz a1, a0, 0, 18
-; RV64IXANDES-NEXT:  .Lpcrel_hi1:
-; RV64IXANDES-NEXT:    auipc a2, %pcrel_hi(var32)
-; RV64IXANDES-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi1)(a2)
-; RV64IXANDES-NEXT:    bfoz a1, a0, 19, 24
-; RV64IXANDES-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi1)(a2)
-; RV64IXANDES-NEXT:    bfoz a1, a0, 22, 10
-; RV64IXANDES-NEXT:    bfoz a0, a0, 23, 12
-; RV64IXANDES-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi1)(a2)
-; RV64IXANDES-NEXT:    sw a0, %pcrel_lo(.Lpcrel_hi1)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 63
+; RV64IXANDES-NEXT:    lui a2, %hi(var32)
+; RV64IXANDES-NEXT:    srli a1, a1, 45
+; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 58
+; RV64IXANDES-NEXT:    srli a1, a1, 39
+; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 41
+; RV64IXANDES-NEXT:    slli a0, a0, 40
+; RV64IXANDES-NEXT:    srli a1, a1, 51
+; RV64IXANDES-NEXT:    srli a0, a0, 52
+; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
+; RV64IXANDES-NEXT:    sw a0, %lo(var32)(a2)
 ; RV64IXANDES-NEXT:    ret
 
 ; MSB = 0
@@ -1359,8 +1377,8 @@ define void @bfos_from_sra(i32 %fields) {
 ; RV32I-LABEL: bfos_from_sra:
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    slli a1, a0, 31
-; RV32I-NEXT:    srai a1, a1, 17
 ; RV32I-NEXT:    lui a2, %hi(var32)
+; RV32I-NEXT:    srai a1, a1, 17
 ; RV32I-NEXT:    sw a1, %lo(var32)(a2)
 ; RV32I-NEXT:    slli a1, a0, 29
 ; RV32I-NEXT:    slli a0, a0, 8
@@ -1372,11 +1390,14 @@ define void @bfos_from_sra(i32 %fields) {
 ;
 ; RV32IXANDES-LABEL: bfos_from_sra:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bfos a1, a0, 0, 14
+; RV32IXANDES-NEXT:    slli a1, a0, 31
 ; RV32IXANDES-NEXT:    lui a2, %hi(var32)
+; RV32IXANDES-NEXT:    srai a1, a1, 17
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
-; RV32IXANDES-NEXT:    bfos a1, a0, 18, 20
-; RV32IXANDES-NEXT:    bfos a0, a0, 23, 16
+; RV32IXANDES-NEXT:    slli a1, a0, 29
+; RV32IXANDES-NEXT:    slli a0, a0, 8
+; RV32IXANDES-NEXT:    srai a1, a1, 11
+; RV32IXANDES-NEXT:    srai a0, a0, 24
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    sw a0, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    ret
@@ -1384,28 +1405,29 @@ define void @bfos_from_sra(i32 %fields) {
 ; RV64I-LABEL: bfos_from_sra:
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    slli a1, a0, 31
+; RV64I-NEXT:    lui a2, %hi(var32)
 ; RV64I-NEXT:    sraiw a1, a1, 17
-; RV64I-NEXT:  .Lpcrel_hi2:
-; RV64I-NEXT:    auipc a2, %pcrel_hi(var32)
-; RV64I-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi2)(a2)
+; RV64I-NEXT:    sw a1, %lo(var32)(a2)
 ; RV64I-NEXT:    slli a1, a0, 29
 ; RV64I-NEXT:    slli a0, a0, 8
 ; RV64I-NEXT:    sraiw a1, a1, 11
 ; RV64I-NEXT:    sraiw a0, a0, 24
-; RV64I-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi2)(a2)
-; RV64I-NEXT:    sw a0, %pcrel_lo(.Lpcrel_hi2)(a2)
+; RV64I-NEXT:    sw a1, %lo(var32)(a2)
+; RV64I-NEXT:    sw a0, %lo(var32)(a2)
 ; RV64I-NEXT:    ret
 ;
 ; RV64IXANDES-LABEL: bfos_from_sra:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a1, a0, 0, 14
-; RV64IXANDES-NEXT:  .Lpcrel_hi2:
-; RV64IXANDES-NEXT:    auipc a2, %pcrel_hi(var32)
-; RV64IXANDES-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi2)(a2)
-; RV64IXANDES-NEXT:    bfos a1, a0, 18, 20
-; RV64IXANDES-NEXT:    bfos a0, a0, 23, 16
-; RV64IXANDES-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi2)(a2)
-; RV64IXANDES-NEXT:    sw a0, %pcrel_lo(.Lpcrel_hi2)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 31
+; RV64IXANDES-NEXT:    lui a2, %hi(var32)
+; RV64IXANDES-NEXT:    sraiw a1, a1, 17
+; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 29
+; RV64IXANDES-NEXT:    slli a0, a0, 8
+; RV64IXANDES-NEXT:    sraiw a1, a1, 11
+; RV64IXANDES-NEXT:    sraiw a0, a0, 24
+; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
+; RV64IXANDES-NEXT:    sw a0, %lo(var32)(a2)
 ; RV64IXANDES-NEXT:    ret
 
 ; MSB = 0
@@ -1439,54 +1461,58 @@ define void @bfoz_from_and64(i64 %fields) {
 ; RV32I-NEXT:    slli a1, a0, 31
 ; RV32I-NEXT:    srli a1, a1, 15
 ; RV32I-NEXT:    sw a1, %lo(var64+4)(a2)
-; RV32I-NEXT:    slli a1, a0, 20
-; RV32I-NEXT:    srli a1, a1, 28
-; RV32I-NEXT:    slli a0, a0, 24
+; RV32I-NEXT:    slli a1, a0, 24
+; RV32I-NEXT:    slli a0, a0, 20
+; RV32I-NEXT:    srli a0, a0, 28
 ; RV32I-NEXT:    sw zero, %lo(var64)(a2)
-; RV32I-NEXT:    sw a1, %lo(var64+4)(a2)
-; RV32I-NEXT:    sw a0, %lo(var64)(a2)
+; RV32I-NEXT:    sw a0, %lo(var64+4)(a2)
+; RV32I-NEXT:    sw a1, %lo(var64)(a2)
 ; RV32I-NEXT:    ret
 ;
 ; RV32IXANDES-LABEL: bfoz_from_and64:
 ; RV32IXANDES:       # %bb.0:
+; RV32IXANDES-NEXT:    slli a1, a1, 6
 ; RV32IXANDES-NEXT:    lui a2, %hi(var64)
-; RV32IXANDES-NEXT:    bfoz a1, a1, 25, 14
+; RV32IXANDES-NEXT:    srli a1, a1, 20
 ; RV32IXANDES-NEXT:    sw zero, %lo(var64+4)(a2)
 ; RV32IXANDES-NEXT:    sw a1, %lo(var64)(a2)
-; RV32IXANDES-NEXT:    bfoz a1, a0, 0, 16
+; RV32IXANDES-NEXT:    slli a1, a0, 31
+; RV32IXANDES-NEXT:    srli a1, a1, 15
 ; RV32IXANDES-NEXT:    sw a1, %lo(var64+4)(a2)
-; RV32IXANDES-NEXT:    bfoz a1, a0, 11, 8
-; RV32IXANDES-NEXT:    slli a0, a0, 24
+; RV32IXANDES-NEXT:    slli a1, a0, 24
+; RV32IXANDES-NEXT:    slli a0, a0, 20
+; RV32IXANDES-NEXT:    srli a0, a0, 28
 ; RV32IXANDES-NEXT:    sw zero, %lo(var64)(a2)
-; RV32IXANDES-NEXT:    sw a1, %lo(var64+4)(a2)
-; RV32IXANDES-NEXT:    sw a0, %lo(var64)(a2)
+; RV32IXANDES-NEXT:    sw a0, %lo(var64+4)(a2)
+; RV32IXANDES-NEXT:    sw a1, %lo(var64)(a2)
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: bfoz_from_and64:
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    slli a1, a0, 6
+; RV64I-NEXT:    lui a2, %hi(var64)
 ; RV64I-NEXT:    srli a1, a1, 52
-; RV64I-NEXT:  .Lpcrel_hi3:
-; RV64I-NEXT:    auipc a2, %pcrel_hi(var64)
-; RV64I-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi3)(a2)
+; RV64I-NEXT:    sd a1, %lo(var64)(a2)
 ; RV64I-NEXT:    slli a1, a0, 63
 ; RV64I-NEXT:    slli a0, a0, 52
 ; RV64I-NEXT:    srli a1, a1, 15
 ; RV64I-NEXT:    srli a0, a0, 28
-; RV64I-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi3)(a2)
-; RV64I-NEXT:    sd a0, %pcrel_lo(.Lpcrel_hi3)(a2)
+; RV64I-NEXT:    sd a1, %lo(var64)(a2)
+; RV64I-NEXT:    sd a0, %lo(var64)(a2)
 ; RV64I-NEXT:    ret
 ;
 ; RV64IXANDES-LABEL: bfoz_from_and64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfoz a1, a0, 57, 46
-; RV64IXANDES-NEXT:  .Lpcrel_hi3:
-; RV64IXANDES-NEXT:    auipc a2, %pcrel_hi(var64)
-; RV64IXANDES-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi3)(a2)
-; RV64IXANDES-NEXT:    bfoz a1, a0, 0, 48
-; RV64IXANDES-NEXT:    bfoz a0, a0, 24, 35
-; RV64IXANDES-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi3)(a2)
-; RV64IXANDES-NEXT:    sd a0, %pcrel_lo(.Lpcrel_hi3)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 6
+; RV64IXANDES-NEXT:    lui a2, %hi(var64)
+; RV64IXANDES-NEXT:    srli a1, a1, 52
+; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 63
+; RV64IXANDES-NEXT:    slli a0, a0, 52
+; RV64IXANDES-NEXT:    srli a1, a1, 15
+; RV64IXANDES-NEXT:    srli a0, a0, 28
+; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
+; RV64IXANDES-NEXT:    sd a0, %lo(var64)(a2)
 ; RV64IXANDES-NEXT:    ret
 
 ; MSB >= LSB
@@ -1510,91 +1536,96 @@ define void @bfoz_from_and64(i64 %fields) {
 define void @bfoz_from_srl64(i64 %fields) {
 ; RV32I-LABEL: bfoz_from_srl64:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a3, a0, 31
-; RV32I-NEXT:    lui a2, %hi(var64)
-; RV32I-NEXT:    srli a3, a3, 19
-; RV32I-NEXT:    sw zero, %lo(var64)(a2)
-; RV32I-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32I-NEXT:    slli a3, a0, 19
-; RV32I-NEXT:    sw a3, %lo(var64)(a2)
+; RV32I-NEXT:    slli a2, a0, 31
 ; RV32I-NEXT:    srli a3, a0, 13
 ; RV32I-NEXT:    slli a4, a1, 19
+; RV32I-NEXT:    slli a5, a1, 22
 ; RV32I-NEXT:    or a3, a4, a3
+; RV32I-NEXT:    srli a4, a0, 10
+; RV32I-NEXT:    or a4, a4, a5
+; RV32I-NEXT:    lui a5, %hi(var64)
+; RV32I-NEXT:    srli a2, a2, 19
+; RV32I-NEXT:    sw zero, %lo(var64)(a5)
+; RV32I-NEXT:    sw a2, %lo(var64+4)(a5)
+; RV32I-NEXT:    slli a2, a0, 19
+; RV32I-NEXT:    sw a2, %lo(var64)(a5)
+; RV32I-NEXT:    andi a2, a1, 15
+; RV32I-NEXT:    srli a0, a0, 24
+; RV32I-NEXT:    slli a2, a2, 8
+; RV32I-NEXT:    or a0, a0, a2
+; RV32I-NEXT:    slli a1, a1, 9
+; RV32I-NEXT:    srli a1, a1, 19
 ; RV32I-NEXT:    slli a3, a3, 7
 ; RV32I-NEXT:    srli a3, a3, 7
-; RV32I-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32I-NEXT:    slli a3, a1, 9
-; RV32I-NEXT:    srli a3, a3, 19
-; RV32I-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32I-NEXT:    slli a3, a1, 22
-; RV32I-NEXT:    andi a1, a1, 15
-; RV32I-NEXT:    srli a4, a0, 10
-; RV32I-NEXT:    srli a0, a0, 24
-; RV32I-NEXT:    slli a1, a1, 8
-; RV32I-NEXT:    or a3, a4, a3
-; RV32I-NEXT:    or a0, a0, a1
-; RV32I-NEXT:    sw a3, %lo(var64)(a2)
-; RV32I-NEXT:    sw zero, %lo(var64+4)(a2)
-; RV32I-NEXT:    sw a0, %lo(var64)(a2)
+; RV32I-NEXT:    sw a3, %lo(var64+4)(a5)
+; RV32I-NEXT:    sw a1, %lo(var64+4)(a5)
+; RV32I-NEXT:    sw a4, %lo(var64)(a5)
+; RV32I-NEXT:    sw zero, %lo(var64+4)(a5)
+; RV32I-NEXT:    sw a0, %lo(var64)(a5)
 ; RV32I-NEXT:    ret
 ;
 ; RV32IXANDES-LABEL: bfoz_from_srl64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    lui a2, %hi(var64)
-; RV32IXANDES-NEXT:    bfoz a3, a0, 0, 12
-; RV32IXANDES-NEXT:    sw zero, %lo(var64)(a2)
-; RV32IXANDES-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32IXANDES-NEXT:    slli a3, a0, 19
-; RV32IXANDES-NEXT:    sw a3, %lo(var64)(a2)
+; RV32IXANDES-NEXT:    slli a2, a0, 31
 ; RV32IXANDES-NEXT:    srli a3, a0, 13
 ; RV32IXANDES-NEXT:    slli a4, a1, 19
+; RV32IXANDES-NEXT:    slli a5, a1, 22
 ; RV32IXANDES-NEXT:    or a3, a4, a3
-; RV32IXANDES-NEXT:    bfoz a3, a3, 24, 0
-; RV32IXANDES-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32IXANDES-NEXT:    bfoz a3, a1, 22, 10
-; RV32IXANDES-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32IXANDES-NEXT:    slli a3, a1, 22
-; RV32IXANDES-NEXT:    andi a1, a1, 15
 ; RV32IXANDES-NEXT:    srli a4, a0, 10
+; RV32IXANDES-NEXT:    or a4, a4, a5
+; RV32IXANDES-NEXT:    lui a5, %hi(var64)
+; RV32IXANDES-NEXT:    srli a2, a2, 19
+; RV32IXANDES-NEXT:    sw zero, %lo(var64)(a5)
+; RV32IXANDES-NEXT:    sw a2, %lo(var64+4)(a5)
+; RV32IXANDES-NEXT:    slli a2, a0, 19
+; RV32IXANDES-NEXT:    sw a2, %lo(var64)(a5)
+; RV32IXANDES-NEXT:    andi a2, a1, 15
 ; RV32IXANDES-NEXT:    srli a0, a0, 24
-; RV32IXANDES-NEXT:    slli a1, a1, 8
-; RV32IXANDES-NEXT:    or a3, a4, a3
-; RV32IXANDES-NEXT:    or a0, a0, a1
-; RV32IXANDES-NEXT:    sw a3, %lo(var64)(a2)
-; RV32IXANDES-NEXT:    sw zero, %lo(var64+4)(a2)
-; RV32IXANDES-NEXT:    sw a0, %lo(var64)(a2)
+; RV32IXANDES-NEXT:    slli a2, a2, 8
+; RV32IXANDES-NEXT:    or a0, a0, a2
+; RV32IXANDES-NEXT:    slli a1, a1, 9
+; RV32IXANDES-NEXT:    srli a1, a1, 19
+; RV32IXANDES-NEXT:    slli a3, a3, 7
+; RV32IXANDES-NEXT:    srli a3, a3, 7
+; RV32IXANDES-NEXT:    sw a3, %lo(var64+4)(a5)
+; RV32IXANDES-NEXT:    sw a1, %lo(var64+4)(a5)
+; RV32IXANDES-NEXT:    sw a4, %lo(var64)(a5)
+; RV32IXANDES-NEXT:    sw zero, %lo(var64+4)(a5)
+; RV32IXANDES-NEXT:    sw a0, %lo(var64)(a5)
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: bfoz_from_srl64:
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    slli a1, a0, 63
+; RV64I-NEXT:    lui a2, %hi(var64)
 ; RV64I-NEXT:    srli a1, a1, 19
-; RV64I-NEXT:  .Lpcrel_hi4:
-; RV64I-NEXT:    auipc a2, %pcrel_hi(var64)
-; RV64I-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi4)(a2)
+; RV64I-NEXT:    sd a1, %lo(var64)(a2)
 ; RV64I-NEXT:    slli a1, a0, 26
 ; RV64I-NEXT:    srli a1, a1, 7
-; RV64I-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi4)(a2)
+; RV64I-NEXT:    sd a1, %lo(var64)(a2)
 ; RV64I-NEXT:    slli a1, a0, 9
 ; RV64I-NEXT:    slli a0, a0, 28
 ; RV64I-NEXT:    srli a1, a1, 19
 ; RV64I-NEXT:    srli a0, a0, 52
-; RV64I-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi4)(a2)
-; RV64I-NEXT:    sd a0, %pcrel_lo(.Lpcrel_hi4)(a2)
+; RV64I-NEXT:    sd a1, %lo(var64)(a2)
+; RV64I-NEXT:    sd a0, %lo(var64)(a2)
 ; RV64I-NEXT:    ret
 ;
 ; RV64IXANDES-LABEL: bfoz_from_srl64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfoz a1, a0, 0, 44
-; RV64IXANDES-NEXT:  .Lpcrel_hi4:
-; RV64IXANDES-NEXT:    auipc a2, %pcrel_hi(var64)
-; RV64IXANDES-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi4)(a2)
-; RV64IXANDES-NEXT:    bfoz a1, a0, 19, 56
-; RV64IXANDES-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi4)(a2)
-; RV64IXANDES-NEXT:    bfoz a1, a0, 54, 10
-; RV64IXANDES-NEXT:    bfoz a0, a0, 35, 24
-; RV64IXANDES-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi4)(a2)
-; RV64IXANDES-NEXT:    sd a0, %pcrel_lo(.Lpcrel_hi4)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 63
+; RV64IXANDES-NEXT:    lui a2, %hi(var64)
+; RV64IXANDES-NEXT:    srli a1, a1, 19
+; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 26
+; RV64IXANDES-NEXT:    srli a1, a1, 7
+; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 9
+; RV64IXANDES-NEXT:    slli a0, a0, 28
+; RV64IXANDES-NEXT:    srli a1, a1, 19
+; RV64IXANDES-NEXT:    srli a0, a0, 52
+; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
+; RV64IXANDES-NEXT:    sd a0, %lo(var64)(a2)
 ; RV64IXANDES-NEXT:    ret
 
 ; MSB = 0
@@ -1622,84 +1653,88 @@ define void @bfoz_from_srl64(i64 %fields) {
 define void @bfos_from_sra64(i64 %fields) {
 ; RV32I-LABEL: bfos_from_sra64:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a3, a0, 31
-; RV32I-NEXT:    lui a2, %hi(var64)
-; RV32I-NEXT:    srai a3, a3, 17
-; RV32I-NEXT:    sw zero, %lo(var64)(a2)
-; RV32I-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32I-NEXT:    slli a4, a1, 29
-; RV32I-NEXT:    srli a3, a0, 3
-; RV32I-NEXT:    or a4, a4, a3
-; RV32I-NEXT:    srai a4, a4, 11
-; RV32I-NEXT:    sw a4, %lo(var64+4)(a2)
-; RV32I-NEXT:    slli a4, a0, 29
-; RV32I-NEXT:    slli a3, a3, 21
-; RV32I-NEXT:    srli a4, a4, 11
-; RV32I-NEXT:    or a3, a4, a3
+; RV32I-NEXT:    slli a2, a0, 31
+; RV32I-NEXT:    lui a3, %hi(var64)
+; RV32I-NEXT:    srli a4, a0, 3
+; RV32I-NEXT:    slli a5, a1, 29
+; RV32I-NEXT:    srai a2, a2, 17
+; RV32I-NEXT:    sw zero, %lo(var64)(a3)
+; RV32I-NEXT:    sw a2, %lo(var64+4)(a3)
+; RV32I-NEXT:    slli a2, a0, 29
+; RV32I-NEXT:    or a5, a5, a4
+; RV32I-NEXT:    slli a4, a4, 21
+; RV32I-NEXT:    srli a2, a2, 11
+; RV32I-NEXT:    or a2, a2, a4
+; RV32I-NEXT:    srli a4, a0, 24
 ; RV32I-NEXT:    slli a1, a1, 8
-; RV32I-NEXT:    sw a3, %lo(var64)(a2)
-; RV32I-NEXT:    srai a3, a1, 24
-; RV32I-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32I-NEXT:    srli a3, a0, 24
-; RV32I-NEXT:    or a1, a1, a3
 ; RV32I-NEXT:    slli a0, a0, 8
-; RV32I-NEXT:    slli a1, a1, 8
+; RV32I-NEXT:    or a4, a1, a4
 ; RV32I-NEXT:    srli a0, a0, 24
-; RV32I-NEXT:    or a0, a0, a1
-; RV32I-NEXT:    sw a0, %lo(var64)(a2)
+; RV32I-NEXT:    srai a1, a1, 24
+; RV32I-NEXT:    srai a5, a5, 11
+; RV32I-NEXT:    slli a4, a4, 8
+; RV32I-NEXT:    sw a5, %lo(var64+4)(a3)
+; RV32I-NEXT:    sw a2, %lo(var64)(a3)
+; RV32I-NEXT:    or a0, a0, a4
+; RV32I-NEXT:    sw a1, %lo(var64+4)(a3)
+; RV32I-NEXT:    sw a0, %lo(var64)(a3)
 ; RV32I-NEXT:    ret
 ;
 ; RV32IXANDES-LABEL: bfos_from_sra64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    lui a2, %hi(var64)
-; RV32IXANDES-NEXT:    bfos a3, a0, 0, 14
-; RV32IXANDES-NEXT:    sw zero, %lo(var64)(a2)
-; RV32IXANDES-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32IXANDES-NEXT:    srli a3, a0, 3
-; RV32IXANDES-NEXT:    slli a4, a1, 29
-; RV32IXANDES-NEXT:    or a4, a4, a3
-; RV32IXANDES-NEXT:    srai a4, a4, 11
-; RV32IXANDES-NEXT:    sw a4, %lo(var64+4)(a2)
-; RV32IXANDES-NEXT:    bfoz a4, a0, 18, 20
-; RV32IXANDES-NEXT:    slli a3, a3, 21
-; RV32IXANDES-NEXT:    or a3, a4, a3
-; RV32IXANDES-NEXT:    sw a3, %lo(var64)(a2)
-; RV32IXANDES-NEXT:    bfos a3, a1, 23, 16
-; RV32IXANDES-NEXT:    sw a3, %lo(var64+4)(a2)
-; RV32IXANDES-NEXT:    srli a3, a0, 24
+; RV32IXANDES-NEXT:    slli a2, a0, 31
+; RV32IXANDES-NEXT:    lui a3, %hi(var64)
+; RV32IXANDES-NEXT:    srli a4, a0, 3
+; RV32IXANDES-NEXT:    slli a5, a1, 29
+; RV32IXANDES-NEXT:    srai a2, a2, 17
+; RV32IXANDES-NEXT:    sw zero, %lo(var64)(a3)
+; RV32IXANDES-NEXT:    sw a2, %lo(var64+4)(a3)
+; RV32IXANDES-NEXT:    slli a2, a0, 29
+; RV32IXANDES-NEXT:    or a5, a5, a4
+; RV32IXANDES-NEXT:    slli a4, a4, 21
+; RV32IXANDES-NEXT:    srli a2, a2, 11
+; RV32IXANDES-NEXT:    or a2, a2, a4
+; RV32IXANDES-NEXT:    srli a4, a0, 24
 ; RV32IXANDES-NEXT:    slli a1, a1, 8
-; RV32IXANDES-NEXT:    or a1, a1, a3
-; RV32IXANDES-NEXT:    slli a1, a1, 8
-; RV32IXANDES-NEXT:    bfoz a0, a0, 23, 16
-; RV32IXANDES-NEXT:    or a0, a0, a1
-; RV32IXANDES-NEXT:    sw a0, %lo(var64)(a2)
+; RV32IXANDES-NEXT:    slli a0, a0, 8
+; RV32IXANDES-NEXT:    or a4, a1, a4
+; RV32IXANDES-NEXT:    srli a0, a0, 24
+; RV32IXANDES-NEXT:    srai a1, a1, 24
+; RV32IXANDES-NEXT:    srai a5, a5, 11
+; RV32IXANDES-NEXT:    slli a4, a4, 8
+; RV32IXANDES-NEXT:    sw a5, %lo(var64+4)(a3)
+; RV32IXANDES-NEXT:    sw a2, %lo(var64)(a3)
+; RV32IXANDES-NEXT:    or a0, a0, a4
+; RV32IXANDES-NEXT:    sw a1, %lo(var64+4)(a3)
+; RV32IXANDES-NEXT:    sw a0, %lo(var64)(a3)
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: bfos_from_sra64:
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    slli a1, a0, 63
+; RV64I-NEXT:    lui a2, %hi(var64)
 ; RV64I-NEXT:    srai a1, a1, 17
-; RV64I-NEXT:  .Lpcrel_hi5:
-; RV64I-NEXT:    auipc a2, %pcrel_hi(var64)
-; RV64I-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi5)(a2)
+; RV64I-NEXT:    sd a1, %lo(var64)(a2)
 ; RV64I-NEXT:    slli a1, a0, 29
 ; RV64I-NEXT:    slli a0, a0, 8
 ; RV64I-NEXT:    srai a1, a1, 11
 ; RV64I-NEXT:    srai a0, a0, 24
-; RV64I-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi5)(a2)
-; RV64I-NEXT:    sd a0, %pcrel_lo(.Lpcrel_hi5)(a2)
+; RV64I-NEXT:    sd a1, %lo(var64)(a2)
+; RV64I-NEXT:    sd a0, %lo(var64)(a2)
 ; RV64I-NEXT:    ret
 ;
 ; RV64IXANDES-LABEL: bfos_from_sra64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bfos a1, a0, 0, 46
-; RV64IXANDES-NEXT:  .Lpcrel_hi5:
-; RV64IXANDES-NEXT:    auipc a2, %pcrel_hi(var64)
-; RV64IXANDES-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi5)(a2)
-; RV64IXANDES-NEXT:    bfos a1, a0, 18, 52
-; RV64IXANDES-NEXT:    bfos a0, a0, 55, 16
-; RV64IXANDES-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi5)(a2)
-; RV64IXANDES-NEXT:    sd a0, %pcrel_lo(.Lpcrel_hi5)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 63
+; RV64IXANDES-NEXT:    lui a2, %hi(var64)
+; RV64IXANDES-NEXT:    srai a1, a1, 17
+; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
+; RV64IXANDES-NEXT:    slli a1, a0, 29
+; RV64IXANDES-NEXT:    slli a0, a0, 8
+; RV64IXANDES-NEXT:    srai a1, a1, 11
+; RV64IXANDES-NEXT:    srai a0, a0, 24
+; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
+; RV64IXANDES-NEXT:    sd a0, %lo(var64)(a2)
 ; RV64IXANDES-NEXT:    ret
 
 ; MSB = 0
@@ -1729,7 +1764,7 @@ define i32 @lea_h(i32 %a, i32 %b) nounwind {
 ;
 ; RV32IXANDES-LABEL: lea_h:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    lea.h a0, a0, a1
+; RV32IXANDES-NEXT:    nds.lea.h a0, a0, a1
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: lea_h:
@@ -1740,7 +1775,7 @@ define i32 @lea_h(i32 %a, i32 %b) nounwind {
 ;
 ; RV64IXANDES-LABEL: lea_h:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    lea.h a0, a0, a1
+; RV64IXANDES-NEXT:    nds.lea.h a0, a0, a1
 ; RV64IXANDES-NEXT:    sext.w a0, a0
 ; RV64IXANDES-NEXT:    ret
   %shl = shl i32 %b, 1
@@ -1757,7 +1792,7 @@ define i32 @lea_w(i32 %a, i32 %b) nounwind {
 ;
 ; RV32IXANDES-LABEL: lea_w:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    lea.w a0, a0, a1
+; RV32IXANDES-NEXT:    nds.lea.w a0, a0, a1
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: lea_w:
@@ -1768,7 +1803,7 @@ define i32 @lea_w(i32 %a, i32 %b) nounwind {
 ;
 ; RV64IXANDES-LABEL: lea_w:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    lea.w a0, a0, a1
+; RV64IXANDES-NEXT:    nds.lea.w a0, a0, a1
 ; RV64IXANDES-NEXT:    sext.w a0, a0
 ; RV64IXANDES-NEXT:    ret
   %shl = shl i32 %b, 2
@@ -1785,7 +1820,7 @@ define i32 @lea_d(i32 %a, i32 %b) nounwind {
 ;
 ; RV32IXANDES-LABEL: lea_d:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    lea.d a0, a0, a1
+; RV32IXANDES-NEXT:    nds.lea.d a0, a0, a1
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: lea_d:
@@ -1796,7 +1831,7 @@ define i32 @lea_d(i32 %a, i32 %b) nounwind {
 ;
 ; RV64IXANDES-LABEL: lea_d:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    lea.d a0, a0, a1
+; RV64IXANDES-NEXT:    nds.lea.d a0, a0, a1
 ; RV64IXANDES-NEXT:    sext.w a0, a0
 ; RV64IXANDES-NEXT:    ret
   %shl = shl i32 %b, 3
@@ -1807,27 +1842,26 @@ define i32 @lea_d(i32 %a, i32 %b) nounwind {
 define i64 @lea_h64(i64 %a, i64 %b) nounwind {
 ; RV32I-LABEL: lea_h64:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a4, a2, 1
-; RV32I-NEXT:    srli a2, a2, 31
+; RV32I-NEXT:    srli a4, a2, 31
 ; RV32I-NEXT:    slli a3, a3, 1
-; RV32I-NEXT:    add a4, a0, a4
-; RV32I-NEXT:    or a2, a3, a2
-; RV32I-NEXT:    sltu a0, a4, a0
-; RV32I-NEXT:    add a1, a1, a2
+; RV32I-NEXT:    slli a2, a2, 1
+; RV32I-NEXT:    or a3, a3, a4
+; RV32I-NEXT:    add a2, a0, a2
+; RV32I-NEXT:    sltu a0, a2, a0
+; RV32I-NEXT:    add a1, a1, a3
 ; RV32I-NEXT:    add a1, a1, a0
-; RV32I-NEXT:    mv a0, a4
+; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:    ret
 ;
 ; RV32IXANDES-LABEL: lea_h64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    lea.h a4, a0, a2
-; RV32IXANDES-NEXT:    srli a2, a2, 31
-; RV32IXANDES-NEXT:    slli a3, a3, 1
-; RV32IXANDES-NEXT:    or a2, a3, a2
-; RV32IXANDES-NEXT:    sltu a0, a4, a0
-; RV32IXANDES-NEXT:    add a1, a1, a2
+; RV32IXANDES-NEXT:    srli a4, a2, 31
+; RV32IXANDES-NEXT:    nds.lea.h a2, a0, a2
+; RV32IXANDES-NEXT:    nds.lea.h a3, a4, a3
+; RV32IXANDES-NEXT:    sltu a0, a2, a0
+; RV32IXANDES-NEXT:    add a1, a1, a3
 ; RV32IXANDES-NEXT:    add a1, a1, a0
-; RV32IXANDES-NEXT:    mv a0, a4
+; RV32IXANDES-NEXT:    mv a0, a2
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: lea_h64:
@@ -1838,7 +1872,7 @@ define i64 @lea_h64(i64 %a, i64 %b) nounwind {
 ;
 ; RV64IXANDES-LABEL: lea_h64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    lea.h a0, a0, a1
+; RV64IXANDES-NEXT:    nds.lea.h a0, a0, a1
 ; RV64IXANDES-NEXT:    ret
   %shl = shl i64 %b, 1
   %ret = add i64 %a, %shl
@@ -1848,27 +1882,26 @@ define i64 @lea_h64(i64 %a, i64 %b) nounwind {
 define i64 @lea_w64(i64 %a, i64 %b) nounwind {
 ; RV32I-LABEL: lea_w64:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a4, a2, 2
-; RV32I-NEXT:    srli a2, a2, 30
+; RV32I-NEXT:    srli a4, a2, 30
 ; RV32I-NEXT:    slli a3, a3, 2
-; RV32I-NEXT:    add a4, a0, a4
-; RV32I-NEXT:    or a2, a3, a2
-; RV32I-NEXT:    sltu a0, a4, a0
-; RV32I-NEXT:    add a1, a1, a2
+; RV32I-NEXT:    slli a2, a2, 2
+; RV32I-NEXT:    or a3, a3, a4
+; RV32I-NEXT:    add a2, a0, a2
+; RV32I-NEXT:    sltu a0, a2, a0
+; RV32I-NEXT:    add a1, a1, a3
 ; RV32I-NEXT:    add a1, a1, a0
-; RV32I-NEXT:    mv a0, a4
+; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:    ret
 ;
 ; RV32IXANDES-LABEL: lea_w64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    lea.w a4, a0, a2
-; RV32IXANDES-NEXT:    srli a2, a2, 30
-; RV32IXANDES-NEXT:    slli a3, a3, 2
-; RV32IXANDES-NEXT:    or a2, a3, a2
-; RV32IXANDES-NEXT:    sltu a0, a4, a0
-; RV32IXANDES-NEXT:    add a1, a1, a2
+; RV32IXANDES-NEXT:    srli a4, a2, 30
+; RV32IXANDES-NEXT:    nds.lea.w a2, a0, a2
+; RV32IXANDES-NEXT:    nds.lea.w a3, a4, a3
+; RV32IXANDES-NEXT:    sltu a0, a2, a0
+; RV32IXANDES-NEXT:    add a1, a1, a3
 ; RV32IXANDES-NEXT:    add a1, a1, a0
-; RV32IXANDES-NEXT:    mv a0, a4
+; RV32IXANDES-NEXT:    mv a0, a2
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: lea_w64:
@@ -1879,7 +1912,7 @@ define i64 @lea_w64(i64 %a, i64 %b) nounwind {
 ;
 ; RV64IXANDES-LABEL: lea_w64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    lea.w a0, a0, a1
+; RV64IXANDES-NEXT:    nds.lea.w a0, a0, a1
 ; RV64IXANDES-NEXT:    ret
   %shl = shl i64 %b, 2
   %ret = add i64 %a, %shl
@@ -1889,27 +1922,26 @@ define i64 @lea_w64(i64 %a, i64 %b) nounwind {
 define i64 @lea_d64(i64 %a, i64 %b) nounwind {
 ; RV32I-LABEL: lea_d64:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a4, a2, 3
-; RV32I-NEXT:    srli a2, a2, 29
+; RV32I-NEXT:    srli a4, a2, 29
 ; RV32I-NEXT:    slli a3, a3, 3
-; RV32I-NEXT:    add a4, a0, a4
-; RV32I-NEXT:    or a2, a3, a2
-; RV32I-NEXT:    sltu a0, a4, a0
-; RV32I-NEXT:    add a1, a1, a2
+; RV32I-NEXT:    slli a2, a2, 3
+; RV32I-NEXT:    or a3, a3, a4
+; RV32I-NEXT:    add a2, a0, a2
+; RV32I-NEXT:    sltu a0, a2, a0
+; RV32I-NEXT:    add a1, a1, a3
 ; RV32I-NEXT:    add a1, a1, a0
-; RV32I-NEXT:    mv a0, a4
+; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:    ret
 ;
 ; RV32IXANDES-LABEL: lea_d64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    lea.d a4, a0, a2
-; RV32IXANDES-NEXT:    srli a2, a2, 29
-; RV32IXANDES-NEXT:    slli a3, a3, 3
-; RV32IXANDES-NEXT:    or a2, a3, a2
-; RV32IXANDES-NEXT:    sltu a0, a4, a0
-; RV32IXANDES-NEXT:    add a1, a1, a2
+; RV32IXANDES-NEXT:    srli a4, a2, 29
+; RV32IXANDES-NEXT:    nds.lea.d a2, a0, a2
+; RV32IXANDES-NEXT:    nds.lea.d a3, a4, a3
+; RV32IXANDES-NEXT:    sltu a0, a2, a0
+; RV32IXANDES-NEXT:    add a1, a1, a3
 ; RV32IXANDES-NEXT:    add a1, a1, a0
-; RV32IXANDES-NEXT:    mv a0, a4
+; RV32IXANDES-NEXT:    mv a0, a2
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: lea_d64:
@@ -1920,7 +1952,7 @@ define i64 @lea_d64(i64 %a, i64 %b) nounwind {
 ;
 ; RV64IXANDES-LABEL: lea_d64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    lea.d a0, a0, a1
+; RV64IXANDES-NEXT:    nds.lea.d a0, a0, a1
 ; RV64IXANDES-NEXT:    ret
   %shl = shl i64 %b, 3
   %ret = add i64 %a, %shl
@@ -1930,9 +1962,8 @@ define i64 @lea_d64(i64 %a, i64 %b) nounwind {
 define signext i32 @select_bbc(i32 signext %a, i32 signext %b, i32 signext %c) nounwind {
 ; RV32I-LABEL: select_bbc:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    mv a3, a0
+; RV32I-NEXT:    slli a3, a0, 15
 ; RV32I-NEXT:    mv a0, a1
-; RV32I-NEXT:    slli a3, a3, 15
 ; RV32I-NEXT:    bgez a3, .LBB56_2
 ; RV32I-NEXT:  # %bb.1:
 ; RV32I-NEXT:    mv a0, a2
@@ -1941,18 +1972,18 @@ define signext i32 @select_bbc(i32 signext %a, i32 signext %b, i32 signext %c) n
 ;
 ; RV32IXANDES-LABEL: select_bbc:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bbc a0, 16, .LBB56_2
-; RV32IXANDES-NEXT:  # %bb.1:
-; RV32IXANDES-NEXT:    mv a1, a2
-; RV32IXANDES-NEXT:  .LBB56_2:
+; RV32IXANDES-NEXT:    slli a3, a0, 15
 ; RV32IXANDES-NEXT:    mv a0, a1
+; RV32IXANDES-NEXT:    bgez a3, .LBB56_2
+; RV32IXANDES-NEXT:  # %bb.1:
+; RV32IXANDES-NEXT:    mv a0, a2
+; RV32IXANDES-NEXT:  .LBB56_2:
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: select_bbc:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    mv a3, a0
+; RV64I-NEXT:    slli a3, a0, 47
 ; RV64I-NEXT:    mv a0, a1
-; RV64I-NEXT:    slli a3, a3, 47
 ; RV64I-NEXT:    bgez a3, .LBB56_2
 ; RV64I-NEXT:  # %bb.1:
 ; RV64I-NEXT:    mv a0, a2
@@ -1961,11 +1992,12 @@ define signext i32 @select_bbc(i32 signext %a, i32 signext %b, i32 signext %c) n
 ;
 ; RV64IXANDES-LABEL: select_bbc:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bbc a0, 16, .LBB56_2
-; RV64IXANDES-NEXT:  # %bb.1:
-; RV64IXANDES-NEXT:    mv a1, a2
-; RV64IXANDES-NEXT:  .LBB56_2:
+; RV64IXANDES-NEXT:    slli a3, a0, 47
 ; RV64IXANDES-NEXT:    mv a0, a1
+; RV64IXANDES-NEXT:    bgez a3, .LBB56_2
+; RV64IXANDES-NEXT:  # %bb.1:
+; RV64IXANDES-NEXT:    mv a0, a2
+; RV64IXANDES-NEXT:  .LBB56_2:
 ; RV64IXANDES-NEXT:    ret
   %mask = shl i32 1, 16
   %and = and i32 %a, %mask
@@ -1977,9 +2009,8 @@ define signext i32 @select_bbc(i32 signext %a, i32 signext %b, i32 signext %c) n
 define signext i32 @select_bbs(i32 signext %a, i32 signext %b, i32 signext %c) nounwind {
 ; RV32I-LABEL: select_bbs:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    mv a3, a0
+; RV32I-NEXT:    slli a3, a0, 15
 ; RV32I-NEXT:    mv a0, a1
-; RV32I-NEXT:    slli a3, a3, 15
 ; RV32I-NEXT:    bltz a3, .LBB57_2
 ; RV32I-NEXT:  # %bb.1:
 ; RV32I-NEXT:    mv a0, a2
@@ -1988,18 +2019,18 @@ define signext i32 @select_bbs(i32 signext %a, i32 signext %b, i32 signext %c) n
 ;
 ; RV32IXANDES-LABEL: select_bbs:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bbs a0, 16, .LBB57_2
-; RV32IXANDES-NEXT:  # %bb.1:
-; RV32IXANDES-NEXT:    mv a1, a2
-; RV32IXANDES-NEXT:  .LBB57_2:
+; RV32IXANDES-NEXT:    slli a3, a0, 15
 ; RV32IXANDES-NEXT:    mv a0, a1
+; RV32IXANDES-NEXT:    bltz a3, .LBB57_2
+; RV32IXANDES-NEXT:  # %bb.1:
+; RV32IXANDES-NEXT:    mv a0, a2
+; RV32IXANDES-NEXT:  .LBB57_2:
 ; RV32IXANDES-NEXT:    ret
 ;
 ; RV64I-LABEL: select_bbs:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    mv a3, a0
+; RV64I-NEXT:    slli a3, a0, 47
 ; RV64I-NEXT:    mv a0, a1
-; RV64I-NEXT:    slli a3, a3, 47
 ; RV64I-NEXT:    bltz a3, .LBB57_2
 ; RV64I-NEXT:  # %bb.1:
 ; RV64I-NEXT:    mv a0, a2
@@ -2008,11 +2039,12 @@ define signext i32 @select_bbs(i32 signext %a, i32 signext %b, i32 signext %c) n
 ;
 ; RV64IXANDES-LABEL: select_bbs:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bbs a0, 16, .LBB57_2
-; RV64IXANDES-NEXT:  # %bb.1:
-; RV64IXANDES-NEXT:    mv a1, a2
-; RV64IXANDES-NEXT:  .LBB57_2:
+; RV64IXANDES-NEXT:    slli a3, a0, 47
 ; RV64IXANDES-NEXT:    mv a0, a1
+; RV64IXANDES-NEXT:    bltz a3, .LBB57_2
+; RV64IXANDES-NEXT:  # %bb.1:
+; RV64IXANDES-NEXT:    mv a0, a2
+; RV64IXANDES-NEXT:  .LBB57_2:
 ; RV64IXANDES-NEXT:    ret
   %mask = shl i32 1, 16
   %and = and i32 %a, %mask
@@ -2034,7 +2066,8 @@ define signext i32 @select_beqc(i32 signext %a, i32 signext %b, i32 signext %c) 
 ;
 ; RV32IXANDES-LABEL: select_beqc:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    beqc a0, 5, .LBB58_2
+; RV32IXANDES-NEXT:    li a3, 5
+; RV32IXANDES-NEXT:    beq a0, a3, .LBB58_2
 ; RV32IXANDES-NEXT:  # %bb.1:
 ; RV32IXANDES-NEXT:    mv a1, a2
 ; RV32IXANDES-NEXT:  .LBB58_2:
@@ -2053,7 +2086,8 @@ define signext i32 @select_beqc(i32 signext %a, i32 signext %b, i32 signext %c) 
 ;
 ; RV64IXANDES-LABEL: select_beqc:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    beqc a0, 5, .LBB58_2
+; RV64IXANDES-NEXT:    li a3, 5
+; RV64IXANDES-NEXT:    beq a0, a3, .LBB58_2
 ; RV64IXANDES-NEXT:  # %bb.1:
 ; RV64IXANDES-NEXT:    mv a1, a2
 ; RV64IXANDES-NEXT:  .LBB58_2:
@@ -2077,7 +2111,8 @@ define signext i32 @select_bnec(i32 signext %a, i32 signext %b, i32 signext %c) 
 ;
 ; RV32IXANDES-LABEL: select_bnec:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    bnec a0, 5, .LBB59_2
+; RV32IXANDES-NEXT:    li a3, 5
+; RV32IXANDES-NEXT:    bne a0, a3, .LBB59_2
 ; RV32IXANDES-NEXT:  # %bb.1:
 ; RV32IXANDES-NEXT:    mv a1, a2
 ; RV32IXANDES-NEXT:  .LBB59_2:
@@ -2096,7 +2131,8 @@ define signext i32 @select_bnec(i32 signext %a, i32 signext %b, i32 signext %c) 
 ;
 ; RV64IXANDES-LABEL: select_bnec:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    bnec a0, 5, .LBB59_2
+; RV64IXANDES-NEXT:    li a3, 5
+; RV64IXANDES-NEXT:    bne a0, a3, .LBB59_2
 ; RV64IXANDES-NEXT:  # %bb.1:
 ; RV64IXANDES-NEXT:    mv a1, a2
 ; RV64IXANDES-NEXT:  .LBB59_2:

@@ -8,6 +8,176 @@
 
 //===----------------------------------------------------------------------===//
 
+// The latency varies depending on the memory type and status.
+defvar VLSU_MEM_LATENCY = 13;
+
+/// c is true if mx has the worst case behavior compared to LMULs in MxList.
+/// On the Andes45, the worst case LMUL is the Largest LMUL
+/// and the worst case sew is the smallest SEW for that LMUL.
+class Andes45IsWorstCaseMX<string mx, list<string> MxList> {
+  defvar LLMUL = LargestLMUL<MxList>.r;
+  bit c = !eq(mx, LLMUL);
+}
+
+/// c is true if mx and sew have the worst case behavior compared to LMULs in
+/// MxList. On the Andes45, the worst case LMUL is the Largest LMUL
+/// and the worst case sew is the smallest SEW for that LMUL.
+class Andes45IsWorstCaseMXSEW<string mx, int sew, list<string> MxList,
+                               bit isF = 0> {
+  defvar LLMUL = LargestLMUL<MxList>.r;
+  defvar SSEW = SmallestSEW<mx, isF>.r;
+  bit c = !and(!eq(mx, LLMUL), !eq(sew, SSEW));
+}
+
+/// Number of DLEN parts = (LMUL * VLEN) / DLEN.
+/// Since DLEN = VLEN / 2, Num DLEN parts = 2 * LMUL.
+class Andes45GetCyclesDefault<string mx> {
+  int c = !cond(
+    !eq(mx, "M1") : 2,
+    !eq(mx, "M2") : 4,
+    !eq(mx, "M4") : 8,
+    !eq(mx, "M8") : 16,
+    !eq(mx, "MF2") : 1,
+    !eq(mx, "MF4") : 1,
+    !eq(mx, "MF8") : 1
+  );
+}
+
+class Andes45GetCyclesNarrowing<string mx> {
+  int c = !cond(
+    !eq(mx, "M1") : 4,
+    !eq(mx, "M2") : 8,
+    !eq(mx, "M4") : 16,
+    !eq(mx, "MF2") : 2,
+    !eq(mx, "MF4") : 1,
+    !eq(mx, "MF8") : 1
+  );
+}
+
+class Andes45GetCyclesVMask<string mx> {
+  int c = !cond(
+    !eq(mx, "M1") : 1,
+    !eq(mx, "M2") : 1,
+    !eq(mx, "M4") : 1,
+    !eq(mx, "M8") : 2,
+    !eq(mx, "MF2") : 1,
+    !eq(mx, "MF4") : 1,
+    !eq(mx, "MF8") : 1
+  );
+}
+
+/// VLDM and VSTM can't read/write more than 2 DLENs of data.
+/// 2 DLENs when LMUL=8. 1 DLEN for all other DLENs
+class Andes45GetMaskLoadStoreCycles<string mx> {
+  int c = !cond(
+    !eq(mx, "M8")  : 2,
+    true : 1
+  );
+}
+
+// Cycles for nf=2 segmented loads and stores are calculated using the
+// formula (2 * VLEN * LMUL) / DLEN = 4 * LMUL
+class Andes45GetCyclesSegmentedSeg2<string mx> {
+  int c = !cond(
+    !eq(mx, "M1") :  4,
+    !eq(mx, "M2") :  8,
+    !eq(mx, "M4") :  16,
+    !eq(mx, "M8") :  32,
+    !eq(mx, "MF2") : 2,
+    !eq(mx, "MF4") : 1,
+    !eq(mx, "MF8") : 1
+  );
+}
+
+// Cycles for segmented loads and stores are calculated using the
+// formula vl * ceil((SEW * nf) / DLEN), where SEW * nf is the segment size.
+class Andes45GetCyclesSegmented<string mx, int sew, int nf> {
+  defvar VLEN = 512;
+  defvar DLEN = 256;
+  // (VLEN * LMUL) / SEW
+  defvar VLUpperBound  = !cond(
+    !eq(mx, "M1") : !div(VLEN, sew),
+    !eq(mx, "M2") : !div(!mul(VLEN, 2), sew),
+    !eq(mx, "M4") : !div(!mul(VLEN, 4), sew),
+    !eq(mx, "M8") : !div(!mul(VLEN, 8), sew),
+    !eq(mx, "MF2") : !div(!div(VLEN, 2), sew),
+    !eq(mx, "MF4") : !div(!div(VLEN, 4), sew),
+    !eq(mx, "MF8") : !div(!div(VLEN, 8), sew),
+  );
+  // We can calculate ceil(a/b) using (a + b - 1) / b.
+  defvar a = !mul(sew, nf);
+  defvar b = DLEN;
+  int c = !mul(VLUpperBound, !div(!sub(!add(a, b), 1), b));
+}
+
+class Andes45GetCyclesOnePerElement<string mx, int sew> {
+  // FIXME: On Andes45, VLEN is 512. Although a user can request the compiler
+  // to use a different VLEN, this model will not make scheduling decisions
+  // based on the user specified VLEN.
+  // c = ceil(VLEN / SEW) * LMUL
+  // Note: c >= 1 since the smallest VLEN is 512 / 8 = 8, and the
+  // largest division performed on VLEN is in MF8 case with division
+  // by 8. Therefore, there is no need to ceil the result.
+  int VLEN = !div(512, sew);
+  int c = !cond(
+    !eq(mx, "M1")  : VLEN,
+    !eq(mx, "M2")  : !mul(VLEN, 2),
+    !eq(mx, "M4")  : !mul(VLEN, 4),
+    !eq(mx, "M8")  : !mul(VLEN, 8),
+    !eq(mx, "MF2") : !div(VLEN, 2),
+    !eq(mx, "MF4") : !div(VLEN, 4),
+    !eq(mx, "MF8") : !div(VLEN, 8)
+  );
+}
+
+class Andes45GetDivOrSqrtFactor<int sew> {
+  int c = !cond(
+    // TODO: Add SchedSEWSetFP upstream and remove the SEW=8 case.
+    !eq(sew, 8) : 15,
+    !eq(sew, 16) : 15,
+    !eq(sew, 32) : 28,
+    !eq(sew, 64) : 57
+  );
+}
+
+/// Cycles for reductions take approximately VL*SEW/DLEN + 5(4 + log(DLEN/SEW))
+/// cycles.
+class Andes45GetReductionCycles<string mx, int sew> {
+  // VLUpperBound*SEW/DLEN is equivalent to 2*LMUL since
+  // VLUpperBound=(VLEN*LMUL)/SEW.
+  defvar VLEN = 512;
+  defvar DLEN = !div(VLEN, 2);
+  defvar TwoTimesLMUL = !cond(
+    !eq(mx, "M1") : 2,
+    !eq(mx, "M2") : 4,
+    !eq(mx, "M4") : 8,
+    !eq(mx, "M8") : 16,
+    !eq(mx, "MF2") : 1,
+    !eq(mx, "MF4") : 1,
+    !eq(mx, "MF8") : 1
+  );
+  int c = !add(
+    TwoTimesLMUL,
+    !mul(5, !add(4, !logtwo(!div(DLEN, sew))))
+  );
+}
+
+/// Cycles for ordered reductions take approximately 6*VL cycles
+class Andes45GetOrderedReductionCycles<string mx, int sew> {
+  defvar VLEN = 512;
+  // (VLEN * LMUL) / SEW
+  defvar VLUpperBound  = !cond(
+    !eq(mx, "M1") : !div(VLEN, sew),
+    !eq(mx, "M2") : !div(!mul(VLEN, 2), sew),
+    !eq(mx, "M4") : !div(!mul(VLEN, 4), sew),
+    !eq(mx, "M8") : !div(!mul(VLEN, 8), sew),
+    !eq(mx, "MF2") : !div(!div(VLEN, 2), sew),
+    !eq(mx, "MF4") : !div(!div(VLEN, 4), sew),
+    !eq(mx, "MF8") : !div(!div(VLEN, 8), sew),
+  );
+  int c = !mul(6, VLUpperBound);
+}
+
 // FIXME: Implement sheduling model for V and other extensions.
 def Andes45Model : SchedMachineModel {
   let MicroOpBufferSize = 0;  // Andes45 is in-order processor
@@ -44,6 +214,16 @@ def Andes45FMAC  : ProcResource<1>;
 def Andes45FDIV  : ProcResource<1>;
 def Andes45FMV   : ProcResource<1>;
 def Andes45FMISC : ProcResource<1>;
+
+// VPU
+def Andes45VALU    : ProcResource<1>;
+def Andes45VMAC    : ProcResource<1>;
+def Andes45VFMIS   : ProcResource<1>;
+def Andes45VLSU    : ProcResource<1>;
+def Andes45VMASK   : ProcResource<1>;
+def Andes45VPERMUT : ProcResource<1>;
+def Andes45VDIV    : ProcResource<1>;
+def Andes45VFDIV   : ProcResource<1>;
 }
 
 // Integer arithmetic and logic
@@ -218,6 +398,11 @@ def : WriteRes<WriteSingleBitImm, [Andes45ALU]>;
 def : WriteRes<WriteBEXT, [Andes45ALU]>;
 def : WriteRes<WriteBEXTI, [Andes45ALU]>;
 
+// 6. Configuration-Setting Instructions
+def : WriteRes<WriteVSETVLI, [Andes45CSR]>;
+def : WriteRes<WriteVSETIVLI, [Andes45CSR]>;
+def : WriteRes<WriteVSETVL, [Andes45CSR]>;
+
 // Others
 def : WriteRes<WriteCSR, [Andes45CSR]>;
 def : WriteRes<WriteNop, []>;
@@ -329,7 +514,7 @@ def : ReadAdvance<ReadCSR, 0>;
 // Unsupported extensions
 defm : UnsupportedSchedQ;
 defm : UnsupportedSchedSFB;
-defm : UnsupportedSchedV;
+// defm : UnsupportedSchedV;
 defm : UnsupportedSchedXsfvcp;
 defm : UnsupportedSchedZabha;
 defm : UnsupportedSchedZbkb;

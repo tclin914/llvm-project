@@ -411,6 +411,8 @@ static void runBenchmarkConfigurations(
       RepetitionMode == Benchmark::MiddleHalfLoop)
     MinInstructionCounts.push_back(MinInstructions * 2);
 
+  unsigned num = 0;
+
   for (const BenchmarkCode &Conf : Configurations) {
     ProgressMeter<>::ProgressMeterStep MeterStep(Meter ? &*Meter : nullptr);
     SmallVector<Benchmark, 2> AllResults;
@@ -422,7 +424,7 @@ static void runBenchmarkConfigurations(
             Conf, IterationRepetitions, LoopBodySize, *Repetitor));
         std::optional<StringRef> DumpFile;
         if (DumpObjectToDisk.getNumOccurrences())
-          DumpFile = DumpObjectToDisk;
+          DumpFile = DumpObjectToDisk + std::to_string(num++);
         const std::optional<int> BenchmarkCPU =
             BenchmarkProcessCPU == -1
                 ? std::nullopt

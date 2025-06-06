@@ -21,6 +21,8 @@
 #include "llvm/Support/FormatVariadic.h"
 #include "llvm/Support/Program.h"
 
+#define DEBUG_TYPE "llvm-exegesis"
+
 namespace llvm {
 namespace exegesis {
 
@@ -80,6 +82,8 @@ Error SnippetGenerator::generateConfigurations(
         BC.Info = CT.Info;
         BC.Key.Instructions.reserve(CT.Instructions.size());
         for (InstructionTemplate &IT : CT.Instructions) {
+          const Instruction &Instr = IT.getInstr();
+          LLVM_DEBUG(dbgs() << Instr.Name << "\n");
           if (auto Error = randomizeUnsetVariables(State, ForbiddenRegs, IT))
             return Error;
           MCInst Inst = IT.build();

@@ -1223,7 +1223,7 @@ define void @bfoz_from_and(i32 %fields) {
 ; RV32IXANDES-NEXT:    nds.bfoz a1, a0, 25, 23
 ; RV32IXANDES-NEXT:    lui a2, %hi(var32)
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
-; RV32IXANDES-NEXT:    nds.bfoz a1, a0, 15, 15
+; RV32IXANDES-NEXT:    nds.bfoz a1, a0, 0, 15
 ; RV32IXANDES-NEXT:    nds.bfoz a0, a0, 12, 23
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    sw a0, %lo(var32)(a2)
@@ -1248,7 +1248,7 @@ define void @bfoz_from_and(i32 %fields) {
 ; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 25, 23
 ; RV64IXANDES-NEXT:    lui a2, %hi(var32)
 ; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
-; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 15, 15
+; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 0, 15
 ; RV64IXANDES-NEXT:    nds.bfoz a0, a0, 12, 23
 ; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
 ; RV64IXANDES-NEXT:    sw a0, %lo(var32)(a2)
@@ -1292,7 +1292,7 @@ define void @bfoz_from_srl(i32 %fields) {
 ;
 ; RV32IXANDES-LABEL: bfoz_from_srl:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    nds.bfoz a1, a0, 18, 18
+; RV32IXANDES-NEXT:    nds.bfoz a1, a0, 0, 18
 ; RV32IXANDES-NEXT:    lui a2, %hi(var32)
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    nds.bfoz a1, a0, 19, 24
@@ -1322,7 +1322,7 @@ define void @bfoz_from_srl(i32 %fields) {
 ;
 ; RV64IXANDES-LABEL: bfoz_from_srl:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 18, 18
+; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 0, 18
 ; RV64IXANDES-NEXT:    lui a2, %hi(var32)
 ; RV64IXANDES-NEXT:    sw a1, %lo(var32)(a2)
 ; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 19, 24
@@ -1456,7 +1456,7 @@ define void @bfoz_from_and64(i64 %fields) {
 ; RV32IXANDES-NEXT:    lui a2, %hi(var64)
 ; RV32IXANDES-NEXT:    sw zero, %lo(var64+4)(a2)
 ; RV32IXANDES-NEXT:    sw a1, %lo(var64)(a2)
-; RV32IXANDES-NEXT:    nds.bfoz a1, a0, 16, 16
+; RV32IXANDES-NEXT:    nds.bfoz a1, a0, 0, 16
 ; RV32IXANDES-NEXT:    sw a1, %lo(var64+4)(a2)
 ; RV32IXANDES-NEXT:    slli a1, a0, 24
 ; RV32IXANDES-NEXT:    nds.bfoz a0, a0, 11, 8
@@ -1484,7 +1484,7 @@ define void @bfoz_from_and64(i64 %fields) {
 ; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 57, 46
 ; RV64IXANDES-NEXT:    lui a2, %hi(var64)
 ; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
-; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 48, 48
+; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 0, 48
 ; RV64IXANDES-NEXT:    nds.bfoz a0, a0, 24, 35
 ; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
 ; RV64IXANDES-NEXT:    sd a0, %lo(var64)(a2)
@@ -1541,7 +1541,7 @@ define void @bfoz_from_srl64(i64 %fields) {
 ;
 ; RV32IXANDES-LABEL: bfoz_from_srl64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    nds.bfoz a2, a0, 12, 12
+; RV32IXANDES-NEXT:    nds.bfoz a2, a0, 0, 12
 ; RV32IXANDES-NEXT:    lui a3, %hi(var64)
 ; RV32IXANDES-NEXT:    srli a4, a0, 13
 ; RV32IXANDES-NEXT:    slli a5, a1, 19
@@ -1585,7 +1585,7 @@ define void @bfoz_from_srl64(i64 %fields) {
 ;
 ; RV64IXANDES-LABEL: bfoz_from_srl64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 44, 44
+; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 0, 44
 ; RV64IXANDES-NEXT:    lui a2, %hi(var64)
 ; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
 ; RV64IXANDES-NEXT:    nds.bfoz a1, a0, 19, 56

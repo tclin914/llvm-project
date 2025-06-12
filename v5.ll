@@ -1372,13 +1372,11 @@ define void @bfos_from_sra(i32 %fields) {
 ;
 ; RV32IXANDES-LABEL: bfos_from_sra:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    slli a1, a0, 31
+; RV32IXANDES-NEXT:    nds.bfos a1, a0, 0, 14
 ; RV32IXANDES-NEXT:    lui a2, %hi(var32)
-; RV32IXANDES-NEXT:    srai a1, a1, 17
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
-; RV32IXANDES-NEXT:    slli a1, a0, 29
+; RV32IXANDES-NEXT:    nds.bfos a1, a0, 18, 20
 ; RV32IXANDES-NEXT:    nds.bfos a0, a0, 23, 16
-; RV32IXANDES-NEXT:    srai a1, a1, 11
 ; RV32IXANDES-NEXT:    sw a1, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    sw a0, %lo(var32)(a2)
 ; RV32IXANDES-NEXT:    ret
@@ -1650,11 +1648,10 @@ define void @bfos_from_sra64(i64 %fields) {
 ;
 ; RV32IXANDES-LABEL: bfos_from_sra64:
 ; RV32IXANDES:       # %bb.0:
-; RV32IXANDES-NEXT:    slli a2, a0, 31
+; RV32IXANDES-NEXT:    nds.bfos a2, a0, 0, 14
 ; RV32IXANDES-NEXT:    lui a3, %hi(var64)
 ; RV32IXANDES-NEXT:    srli a4, a0, 3
 ; RV32IXANDES-NEXT:    slli a5, a1, 29
-; RV32IXANDES-NEXT:    srai a2, a2, 17
 ; RV32IXANDES-NEXT:    sw zero, %lo(var64)(a3)
 ; RV32IXANDES-NEXT:    sw a2, %lo(var64+4)(a3)
 ; RV32IXANDES-NEXT:    nds.bfoz a2, a0, 18, 20
@@ -1691,13 +1688,11 @@ define void @bfos_from_sra64(i64 %fields) {
 ;
 ; RV64IXANDES-LABEL: bfos_from_sra64:
 ; RV64IXANDES:       # %bb.0:
-; RV64IXANDES-NEXT:    slli a1, a0, 63
+; RV64IXANDES-NEXT:    nds.bfos a1, a0, 0, 46
 ; RV64IXANDES-NEXT:    lui a2, %hi(var64)
-; RV64IXANDES-NEXT:    srai a1, a1, 17
 ; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
-; RV64IXANDES-NEXT:    slli a1, a0, 29
+; RV64IXANDES-NEXT:    nds.bfos a1, a0, 18, 52
 ; RV64IXANDES-NEXT:    nds.bfos a0, a0, 55, 16
-; RV64IXANDES-NEXT:    srai a1, a1, 11
 ; RV64IXANDES-NEXT:    sd a1, %lo(var64)(a2)
 ; RV64IXANDES-NEXT:    sd a0, %lo(var64)(a2)
 ; RV64IXANDES-NEXT:    ret
